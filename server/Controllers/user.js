@@ -63,15 +63,11 @@ exports.login = (req, res, next) => {
 
 //***** DELETE ACCOUNT ******// 
 exports.delete = (req, res, next) => {
-    if (req.body.password) {                                //      TODO ATTENTION REVOIR LA SECURITE
+    if (req.body.password ) {                               
         let sql = `SELECT * FROM user WHERE id=?`;
         db.query(sql, [req.params.id], function (err, result) {
             let user = result[0];
-            let userId = result[0].id;
-            console.log(user, userId);
-            if(userId !== result[0].id) {
-                console.log('vous ne pouvez pas supprimer ce compte')
-            }else{
+            console.log(user);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
@@ -89,7 +85,7 @@ exports.delete = (req, res, next) => {
                             .catch(error => res.status(500).json({ error }));
                     }
                 })
-                .catch(error => res.status(500).json({ message: "Internal Server Error" }));}
+                .catch(error => res.status(500).json({ message: "Internal Server Error" }));
         })
     }
 }
@@ -102,8 +98,8 @@ exports.getOne = (req, res, next) => {
     });
 }
 
-exports.getAs = (req, res, next) => {
-    let sql = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.nom}%' LIMIT 12;`;
+exports.getByName = (req, res, next) => {
+    let sql = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.nom}%' LIMIT 10;`;
     db.query(sql, [req.body.nom], function (err, result) {
         if (err) res.status(400).json({ err });
         res.status(200).json(result)
@@ -138,7 +134,7 @@ exports.modifyPassword = (req, res, next) => {
     }
 }
 
-exports.modifAccount = (req, res, next) => {
+exports.modifyUserAccount = (req, res, next) => {
     if (req.body.nom != "") {
         let sql2 = `UPDATE user
                 SET nom= ?

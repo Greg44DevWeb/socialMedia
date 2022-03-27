@@ -3,7 +3,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const db = require("./config/db");
 const path =  require("path");
-
+const helmet = require('helmet');
 
 /*const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 min
@@ -14,7 +14,7 @@ const path =  require("path");
 
 // Methode Express
 const app = express();
-//app.use(helmet());
+app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
 //app.use(limiter);
@@ -38,10 +38,10 @@ app.use((req, res, next) => {
 
 
 const usersRoutes = require("./Routes/users");
-//const messagesRoutes = require("./Routes/messages");
+const postRoutes = require("./Routes/Posts");
 
 app.use("/api/users", usersRoutes);
-//app.use("/api", messagesRoutes);
+app.use("/api/post", postRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
