@@ -14,6 +14,6 @@ router.delete("/remove/:id", userCtrl.delete);
 router.put("/modifyprofile/:id", authByTokenId, multer, userCtrl.modifyProfilePicture);
 router.put("/modifyAccount/:id", authByTokenId, userCtrl.modifyUserAccount);
 router.put("/modifyPassword/:id", authByTokenId, userCtrl.modifyPassword);
-router.post("/user", auth, userCtrl.getOne);
+router.post("/user", auth, userCtrl.getOneUser);
 router.post("/getByName", auth, userCtrl.getByName);
 module.exports = router;

@@ -90,16 +90,17 @@ exports.delete = (req, res, next) => {
     }
 }
 
-exports.getOne = (req, res, next) => {
-    let sql = `SELECT * FROM user WHERE user.id=${req.body.userId};`;
+exports.getOneUser = (req, res, next) => {
+    let sql = `SELECT * FROM user WHERE user.id = ${req.body.userId};`;
     db.query(sql, function (err, result) {
-        if (err) res.status(400).json({ err });
+        if (err) res.status(400).json({ err }); 
         res.status(200).json(result)
     });
 }
 
 exports.getByName = (req, res, next) => {
-    let sql = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.nom}%' LIMIT 10;`;
+    // requête cherchant la chaine de caractère liée au nom indiqué
+    let sql = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.prenom}%' LIMIT 10;`;
     db.query(sql, [req.body.nom], function (err, result) {
         if (err) res.status(400).json({ err });
         res.status(200).json(result)
@@ -158,7 +159,7 @@ exports.modifyUserAccount = (req, res, next) => {
             if (err) throw err;
         });
     }
-    res.status(200).json({ message: "Information user update" });
+    res.status(200).json({ message: "Informations user updated" });
 }
 
 exports.modifyProfilePicture = (req, res, next) => {
@@ -166,7 +167,7 @@ exports.modifyProfilePicture = (req, res, next) => {
         let sql = `SELECT * FROM user WHERE id = ?`;
         db.query(sql, [req.params.id], function (err, result) {
             if (err) res.status(400).json({ err });
-            if (!result[0]) res.status(400).json({ message: "Aucun id ne correspond dans la table" });
+            if (!result[0]) res.status(400).json({ message: "paas de correspondance d'Id dans la table" });
             else {
                 // SI LE USER A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES/PROFILE
                 if (result[0].pp != "http://localhost:3000/images/profile/pp.png") {
@@ -184,7 +185,7 @@ exports.modifyProfilePicture = (req, res, next) => {
                 WHERE id = ?`;
                 db.query(sql2, [image, req.params.id], function (err, result) {
                     if (err) throw err;
-                    res.status(201).json({ message: `Photo user udpate` });
+                    res.status(201).json({ message: `Photo user udpated` });
                 });
             }
         });
