@@ -9,11 +9,12 @@ const fs = require("fs");
 // AFFICHER TOUS LES POSTS DU PLUS RECENT AU PLUS ANCIEN
 exports.getPosts = (req, res, next) => {
   let sql =
-    "SELECT * FROM post p JOIN WHERE user.id= authorId ORDER BY date DESC LIMIT 50;";
+    "SELECT * FROM post p JOIN user WHERE user.id = authorId ORDER BY date DESC LIMIT 50;";
   db.query(sql, function (err, result) {
     if (err)
       res.status(400).json({ message: "impossible d'afficher les posts" });
     res.status(200).json(result);
+    console.log(result);
   });
 };
 // AFFCIHER LES POSTS PAR DATE DECROISSANTE SELON L'AUTEUR
@@ -22,7 +23,7 @@ exports.getPostsByAuthor = (req, res, next) => {
     "SELECT * FROM post JOIN user WHERE user.id = authorId AND authorID = ? ORDER BY date DESC;";
   db.query(sql, [req.body.id], function (err, result) {
     if (err)
-      res
+      res 
         .status(400)
         .json({ message: "affichage des posts de cet utilisateur impossible" });
     res.status(200).json(result);
@@ -42,17 +43,17 @@ exports.createPost = (req, res, next) => {
     imageUrl: image,
     like: 0,
     date: new Date().toLocaleDateString("af-ZA", { timeZone: "Europe/Paris" }),
-    authorId: req.body.userId,
+    authorId: req.body.id,
   };
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES
   let sql =
     "INSERT INTO post (text, imageURL, date, authorId) VALUES (?,?,?,?);";
   db.query(
     sql,
-    [post.text, post.imageUrl, post.date, poste.authorId],
+    [post.text, post.imageUrl, post.date, post.authorId],
     function (err, result) {
       if (err) throw err;
-      res.status(200).json({ message: "ressource créée" });
+      res.status(200).json({ message: "ressource créé" });
     }
   );
 };
@@ -92,7 +93,7 @@ exports.deletePost = (req, res, next) => {
 //MODIFIER UN POST
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
-    let sql = "SELECT * FROM post WHERE id = ?;";
+    let sql = `SELECT * FROM post WHERE id = ?`;
     db.query(sql, [req.params.id], function (err, result) {
       if (err) res.status(400).json({ message: "une erreur s'est produite" });
       if (!result[0])
@@ -108,12 +109,12 @@ exports.modifyPost = (req, res, next) => {
         });
       }
       // IMPORT DES INFOS DU FRONTEND
-      let image = req.file
+      let image = (req.file)
         ? `${req.protocol}://${req.get("host")}/images/post/${
             req.file.filename
           }`
         : "";
-      let textToSend = req.body.post ? req.body.post.text : "";
+      let textToSend = (req.body.post) ? req.body.post.text : " ";
       //objet
       const post = {
         text: textToSend,
@@ -121,8 +122,9 @@ exports.modifyPost = (req, res, next) => {
         date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
       };
       // MISE A JOUR DE LA DATABASE
-      let sql2 =
-        "UPDATE post SET text = ?, imageUrl = ?, date = ?, WHERE id = ?;";
+      let sql2 = `UPDATE post
+      SET text = ?, imageUrl= ?, date = ?
+      WHERE postid = ?`;
       db.query(
         sql2,
         [post.textToSend, post.imageUrl, post.date, req.params.id],
@@ -134,14 +136,14 @@ exports.modifyPost = (req, res, next) => {
     });
   } else {
     //Paramètres des infos du FRONTEND
-    const textToSend = req.body.post ? req.body.post.text : " ";
+    const textToSend = (req.body.post) ? req.body.post.text : " ";
     //objet
     const post = {
       text: textToSend,
       date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
     };
     //MISE A JOUR DE LA DATABASE
-    let sql2 = "UPDATE post SET text = ?, date = ?, WHERE id = ?;";
+    let sql2 = `UPDATE post SET text = ?, date = ? WHERE postid = ?`;
     db.query(
       sql2,
       [post.text, post.date, req.params.id],

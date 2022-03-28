@@ -9,7 +9,7 @@ module.exports = (req,res,next) => {
         }else{
             next();
         }
-    }catch(e){
+    }catch(error){
         res.status(401).json({error:'Invalid request!'});
     }
 }
