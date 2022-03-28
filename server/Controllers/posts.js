@@ -13,3 +13,11 @@ exports.getPosts = (req, res, next) => {
     res.status(200).json(result);
   });
 };
+// Afficher les posts selon l'auteur du post par date décroissante 
+exports.getPostsByAuthor = (req, res, next) => {
+let sql = 'SELECT * FROM post JOIN user WHERE user.id = authorId AND authorID = ? ORDER BY date DESC;';
+db.query(sql, [req.body.id], function (err, result) {
+    if(err) res.status(400).json({message : 'affichage des posts de cet utilisateur impossible'});
+    res.status(200).json(result);
+});
+};
