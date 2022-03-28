@@ -41,7 +41,7 @@ const usersRoutes = require("./Routes/users");
 const postRoutes = require("./Routes/Posts");
 
 app.use("/api/users", usersRoutes);
-//app.use("/api/post", postRoutes);
+app.use("/api/post", postRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
