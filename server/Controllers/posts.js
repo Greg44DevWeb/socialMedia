@@ -3,6 +3,8 @@ const db = require("../config/db");
 const fs = require("fs");
 
 
+
+
 //***** POSTS CONTROLLERS *****//
 // AFFICHER TOUS LES POSTS DU PLUS RECENT AU PLUS ANCIEN
 exports.getPosts = (req, res, next) => {
@@ -20,7 +22,9 @@ exports.getPostsByAuthor = (req, res, next) => {
     "SELECT * FROM post JOIN user WHERE user.id = authorId AND authorID = ? ORDER BY date DESC;";
   db.query(sql, [req.body.id], function (err, result) {
     if (err)
-      res.status(400).json({ message: "affichage des posts de cet utilisateur impossible" });
+      res
+        .status(400)
+        .json({ message: "affichage des posts de cet utilisateur impossible" });
     res.status(200).json(result);
   });
 };
@@ -87,5 +91,64 @@ exports.deletePost = (req, res, next) => {
 
 //MODIFIER UN POST
 exports.modifyPost = (req, res, next) => {
-
-}
+  if (req.file) {
+    let sql = "SELECT * FROM post WHERE id = ?;";
+    db.query(sql, [req.params.id], function (err, result) {
+      if (err) res.status(400).json({ message: "une erreur s'est produite" });
+      if (!result[0])
+        res
+          .status(400)
+          .json({ message: "pas de correspondance dans la table" });
+      else {
+        //Gestion d'une image dans le post
+        const imageName = result[0].imageUrl.split("/images/post/")[1];
+        fs.unlink(`images/${imageName}`, () => {
+          if (err) throw err;
+          console.log("Modification effectuée");
+        });
+      }
+      // IMPORT DES INFOS DU FRONTEND
+      let image = req.file
+        ? `${req.protocol}://${req.get("host")}/images/post/${
+            req.file.filename
+          }`
+        : "";
+      let textToSend = req.body.post ? req.body.post.text : "";
+      //objet
+      const post = {
+        text: textToSend,
+        imageUrl: image,
+        date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
+      };
+      // MISE A JOUR DE LA DATABASE
+      let sql2 =
+        "UPDATE post SET text = ?, imageUrl = ?, date = ?, WHERE id = ?;";
+      db.query(
+        sql2,
+        [post.textToSend, post.imageUrl, post.date, req.params.id],
+        function (err, result) {
+          if (err) throw err;
+          res.status(201).json({ message: "mise à jour du post effectuée" });
+        }
+      );
+    });
+  } else {
+    //Paramètres des infos du FRONTEND
+    const textToSend = req.body.post ? req.body.post.text : " ";
+    //objet
+    const post = {
+      text: textToSend,
+      date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
+    };
+    //MISE A JOUR DE LA DATABASE
+    let sql2 = "UPDATE post SET text = ?, date = ?, WHERE id = ?;";
+    db.query(
+      sql2,
+      [post.text, post.date, req.params.id],
+      function (err, result) {
+        if (err) throw err;
+        res.status(201).json({ message: "mise à jour du post effectuée" });
+      }
+    );
+  }
+};
