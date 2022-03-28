@@ -14,7 +14,7 @@ exports.getPosts = (req, res, next) => {
     res.status(200).json(result);
   });
 };
-// Afficher les posts selon l'auteur du post par date décroissante
+// AFFCIHER LES POSTS PAR DATE DECROISSANTE SELON L'AUTEUR
 exports.getPostsByAuthor = (req, res, next) => {
   let sql =
     "SELECT * FROM post JOIN user WHERE user.id = authorId AND authorID = ? ORDER BY date DESC;";
@@ -25,7 +25,7 @@ exports.getPostsByAuthor = (req, res, next) => {
   });
 };
 
-
+// CREER UN POST CONTENANT TEXTE, IMAGE, DATE
 exports.createPost = (req, res, next) => {
   //PARAMETRE DES DONNES COMPLETEES
   const image = req.file
@@ -52,3 +52,40 @@ exports.createPost = (req, res, next) => {
     }
   );
 };
+
+// SUPPRIMER UN POST
+exports.deletePost = (req, res, next) => {
+  let sql = "SELECT * FROM post WHERE postId = ?;";
+  db.query(sql, [req.params.id], function (err, result) {
+    if (err) res.status(400).json({ message: "une erreur s'est produite" });
+    if (!result[0])
+      res.status(400).json({ message: "Pas de correspondance pour cet Id " });
+    else {
+      if (result[0].authorId == req.body.userId || req.body.admin == true) {
+        //gestion de l'image a supprimer
+        if (result[0].imageUrl != "") {
+          const imageName = result[0].imageUrl.split("/images/post/")[1];
+          fs.unlink(`images/post/${imageName}`, () => {
+            if (err) throw err;
+            console.log("suppression effectuée");
+          });
+        }
+        //MISE A JOUR DB PAR SUPPRESSION DU POST
+        let sql2 = "DELETE FROM post WHERE postId = ?;";
+        db.query(sql2, [req.params.id], function (err, result) {
+          if (err) throw err;
+          res.status(200).json({ message: "suppression du post effectuée" });
+        });
+      } else {
+        res
+          .status(400)
+          .json({ message: "Vous ne pouvez pas supprimer ce post" });
+      }
+    }
+  });
+};
+
+//MODIFIER UN POST
+exports.modifyPost = (req, res, next) => {
+
+}

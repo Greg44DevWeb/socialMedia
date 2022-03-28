@@ -6,8 +6,8 @@ const multerPost = require("../middlewares/multerPost-config");
 
 router.get("/", auth, postController.getPosts);
 router.post("/", auth, multerPost, postController.createPost);
-/*router.post("/byAuthor", postController.getByAuthor);
-router.delete("/:id", auth, postController.delete);
-router.put("/:id", multer, postController.modify);*/
+router.post("/byAuthor", postController.getPostsByAuthor);
+router.delete("/:id", auth, postController.deletePost);
+router.put("/:id", multerPost, postController.modifyPost);
 
 module.exports = router;
