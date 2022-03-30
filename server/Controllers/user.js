@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 const fs = require('fs');
-const { useParams } = require("react-router-dom");
+
 
 
 //****** SIGNUP USER ***************/

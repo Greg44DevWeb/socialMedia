@@ -40,10 +40,12 @@ app.use((req, res, next) => {
 const usersRoutes = require("./Routes/users");
 const postRoutes = require("./Routes/Posts");
 const commentRoutes = require("./Routes/Comments");
+const LikesRoutes = require('./Routes/Likes');
 
 app.use("/api/users", usersRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
+app.use("api/like",LikesRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));

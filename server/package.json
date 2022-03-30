@@ -27,6 +27,7 @@
     "nodemon": "^2.0.15",
     "password": "^0.1.1",
     "password-validator": "^5.2.1",
-    "rate-limiter": "^0.2.0"
+    "rate-limiter": "^0.2.0",
+    "validator": "^13.7.0"
   }
 }
