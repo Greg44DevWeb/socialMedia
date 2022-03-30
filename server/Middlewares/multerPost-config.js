@@ -1,3 +1,4 @@
+//***** GESTION DES IMAGES DES POSTS ******//
 const multer = require('multer');
 
 const MIME_TYPES = {

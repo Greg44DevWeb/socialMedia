@@ -1,3 +1,4 @@
+//***** GESTION DES IMAGES PROFILES USERS ******//
 // import de multer
 const multer = require('multer');
 
