@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const db = require("./config/db");
-const path =  require("path");
+const express = require("express"); // Express 
+const cors = require("cors"); // Headers compiler
+const morgan = require("morgan"); // Console logger
+const db = require("./config/db"); // Database config and access
+const path =  require("path"); 
 const helmet = require('helmet');
 
 /*const limiter = rateLimit({
@@ -36,12 +36,14 @@ app.use((req, res, next) => {
   next();
 });
 
-
+//****** IMPORTS ET ROUTES PRINCIPALES ******//
 const usersRoutes = require("./Routes/users");
 const postRoutes = require("./Routes/Posts");
+const commentRoutes = require("./Routes/Comments");
 
 app.use("/api/users", usersRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/comment", commentRoutes);
 
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
