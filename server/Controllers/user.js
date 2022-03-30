@@ -6,11 +6,10 @@ require('dotenv').config();
 const fs = require('fs');
 
 
-
 //****** SIGNUP USER ***************/
 exports.signup = (req, res, next) => {
-  let sql = `SELECT * FROM user WHERE email=?`;
-  db.query(sql, [req.body.email], function (err, result) {
+  let query = `SELECT * FROM user WHERE email=?`;
+  db.query(query, [req.body.email], function (err, result) {
     let user = result[0];
     if (!user) {
       bcrypt
@@ -26,9 +25,9 @@ exports.signup = (req, res, next) => {
             password: hash,
             imageUrl: image,
           };
-          let sql = `INSERT INTO user (nom, prenom, email, password, pp) VALUES (?,?,?,?,?)`;
+          let query = `INSERT INTO user (nom, prenom, email, password, pp) VALUES (?,?,?,?,?)`;
           db.query(
-            sql,
+            query,
             [user.nom, user.prenom, user.email, user.password, user.imageUrl],
             function (err, result) {
               if (err) throw err;
@@ -53,8 +52,8 @@ exports.signup = (req, res, next) => {
 
 //****** LOGIN USER ***************/
 exports.login = (req, res, next) => {
-  let sql = `SELECT * FROM user WHERE email=?`;
-  db.query(sql, [req.body.email], function (err, result) {
+  let query = `SELECT * FROM user WHERE email=?`;
+  db.query(query, [req.body.email], function (err, result) {
     let user = result[0];
     if (!user) return res.status(401).json({ error: "Email incorrect" });
     bcrypt
@@ -82,8 +81,8 @@ exports.login = (req, res, next) => {
 //***** DELETE ACCOUNT ******// 
 exports.delete = (req, res, next) => {
   if (req.body.password) {
-    let sql = `SELECT * FROM user WHERE id=?`;
-    db.query(sql, [req.params.id], function (err, result) {
+    let query = `SELECT * FROM user WHERE id=?`;
+    db.query(query, [req.params.id], function (err, result) {
       let user = result[0];
       console.log(user);
       bcrypt
@@ -95,8 +94,8 @@ exports.delete = (req, res, next) => {
             bcrypt
               .hash(req.body.password, 10)
               .then((hash) => {
-                let sql = `DELETE FROM user WHERE id=?`;
-                db.query(sql, [req.params.id], function (err, result) {
+                let query = `DELETE FROM user WHERE id=?`;
+                db.query(query, [req.params.id], function (err, result) {
                   if (err) throw err;
                   console.log(result);
                   res
@@ -117,8 +116,8 @@ exports.delete = (req, res, next) => {
 };
 //****** OBTENIR U N UTILISATEUR *******/
 exports.getOneUser = (req, res, next) => {
-  let sql = `SELECT * FROM user WHERE user.id = ${req.body.userId};`;
-  db.query(sql, function (err, result) {
+  let query = `SELECT * FROM user WHERE user.id = ${req.body.userId};`;
+  db.query(query, function (err, result) {
     if (err) res.status(400).json({ err });
     res.status(200).json(result);
   });
@@ -126,8 +125,8 @@ exports.getOneUser = (req, res, next) => {
 //****** OBTENIR LES UTILISATEURS PAR LEUR NOM ******//
 exports.getByName = (req, res, next) => {
   // requête cherchant la chaine de caractère liée au nom indiqué
-  let sql = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.prenom}%' LIMIT 10;`;
-  db.query(sql, [req.body.nom], function (err, result) {
+  let query = `SELECT * FROM user WHERE nom LIKE '%${req.body.nom}%' OR prenom LIKE '%${req.body.prenom}%' LIMIT 10;`;
+  db.query(query, [req.body.nom], function (err, result) {
     if (err) res.status(400).json({ err });
     res.status(200).json(result);
   });
@@ -136,8 +135,8 @@ exports.getByName = (req, res, next) => {
 //***** MODIFICATION DU MOT DE PASSE  ******//
 exports.modifyPassword = (req, res, next) => {
   if (req.body.password) {
-    let sql = `SELECT * FROM user WHERE id=?`;
-    db.query(sql, [req.params.id], function (err, result) {
+    let query = `SELECT * FROM user WHERE id=?`;
+    db.query(query, [req.params.id], function (err, result) {
       let user = result[0];
       bcrypt
         .compare(req.body.oldPassword, user.password)
@@ -148,10 +147,10 @@ exports.modifyPassword = (req, res, next) => {
             bcrypt
               .hash(req.body.password, 10)
               .then((hash) => {
-                let sql2 = `UPDATE user
+                let query = `UPDATE user
                                 SET password= ?
                                 WHERE id = ?;`;
-                db.query(sql2, [hash, req.params.id], function (err, result) {
+                db.query(query, [hash, req.params.id], function (err, result) {
                   if (err) throw err;
                   res.status(200).json({ message: "Mot de passe modifié" });
                 });
@@ -169,24 +168,24 @@ exports.modifyPassword = (req, res, next) => {
 //***** MODIFICATION DES INFORMATIONS DU COMPTE  ******//
 exports.modifyUserAccount = (req, res, next) => {
   if (req.body.nom != "") {
-    let sql2 = `UPDATE user
+    let query = `UPDATE user
                 SET nom= ?
                 WHERE id = ?`;
-    db.query(sql2, [req.body.nom, req.params.id], function (err, result) {
+    db.query(query, [req.body.nom, req.params.id], function (err, result) {
       if (err) throw err;
     });
   }
   if (req.body.desc != "") {
-    let sql2 = `UPDATE user SET user.desc=? WHERE id =?`;
-    db.query(sql2, [req.body.desc, req.params.id], function (err, result) {
+    let query = `UPDATE user SET user.desc=? WHERE id =?`;
+    db.query(query, [req.body.desc, req.params.id], function (err, result) {
       if (err) throw err;
     });
   }
   if (req.body.prenom != "") {
-    let sql2 = `UPDATE user
+    let query = `UPDATE user
                 SET prenom= ?
                 WHERE id = ?;`;
-    db.query(sql2, [req.body.prenom, req.params.id], function (err, result) {
+    db.query(query, [req.body.prenom, req.params.id], function (err, result) {
       if (err) throw err;
     });
   }
@@ -196,8 +195,8 @@ exports.modifyUserAccount = (req, res, next) => {
 //*****MODIFICATION DE LA PHOTO DE PROFIL *****/
 exports.modifyProfilePicture = (req, res, next) => {
   if (req.file) {
-    let sql = `SELECT * FROM user WHERE id = ?`;
-    db.query(sql, [req.params.id], function (err, result) {
+    let query = `SELECT * FROM user WHERE id = ?`;
+    db.query(query, [req.params.id], function (err, result) {
       if (err) res.status(400).json({ err });
       if (!result[0])
         res
@@ -219,10 +218,10 @@ exports.modifyProfilePicture = (req, res, next) => {
             }`
           : "";
         // MISE A JOIUR DE LA BDD
-        let sql2 = `UPDATE user
+        let query = `UPDATE user
                 SET pp = ?
                 WHERE id = ?`;
-        db.query(sql2, [image, req.params.id], function (err, result) {
+        db.query(query, [image, req.params.id], function (err, result) {
           if (err) throw err;
           res.status(201).json({ message: `Photo user udpated` });
         });

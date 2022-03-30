@@ -8,9 +8,9 @@ const fs = require("fs");
 //***** POSTS CONTROLLERS *****//
 // AFFICHER TOUS LES POSTS DU PLUS RECENT AU PLUS ANCIEN
 exports.getPosts = (req, res, next) => {
-  let sql =
+  let query =
     "SELECT * FROM post p JOIN user WHERE user.id = authorId ORDER BY date DESC LIMIT 50;";
-  db.query(sql, function (err, result) {
+  db.query(query, function (err, result) {
     if (err)
       res.status(400).json({ message: "impossible d'afficher les posts" });
     res.status(200).json(result);
@@ -19,9 +19,9 @@ exports.getPosts = (req, res, next) => {
 };
 // AFFCIHER LES POSTS PAR DATE DECROISSANTE SELON L'AUTEUR
 exports.getPostsByAuthor = (req, res, next) => {
-  let sql =
+  let query =
     "SELECT * FROM post JOIN user WHERE user.id = authorId AND authorID = ? ORDER BY date DESC;";
-  db.query(sql, [req.body.id], function (err, result) {
+  db.query(query, [req.body.id], function (err, result) {
     if (err)
       res 
         .status(400)
@@ -46,10 +46,10 @@ exports.createPost = (req, res, next) => {
     authorId: req.body.id,
   };
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES
-  let sql =
+  let query =
     "INSERT INTO post (text, imageURL, date, authorId) VALUES (?,?,?,?);";
   db.query(
-    sql,
+    query,
     [post.text, post.imageUrl, post.date, post.authorId],
     function (err, result) {
       if (err) throw err;
@@ -60,8 +60,8 @@ exports.createPost = (req, res, next) => {
 
 // SUPPRIMER UN POST
 exports.deletePost = (req, res, next) => {
-  let sql = "SELECT * FROM post WHERE postId = ?;";
-  db.query(sql, [req.params.id], function (err, result) {
+  let query = "SELECT * FROM post WHERE postId = ?;";
+  db.query(query, [req.params.id], function (err, result) {
     if (err) res.status(400).json({ message: "une erreur s'est produite" });
     if (!result[0])
       res.status(400).json({ message: "Pas de correspondance pour cet Id " });
@@ -76,8 +76,8 @@ exports.deletePost = (req, res, next) => {
           });
         }
         //MISE A JOUR DB PAR SUPPRESSION DU POST
-        let sql2 = "DELETE FROM post WHERE postId = ?;";
-        db.query(sql2, [req.params.id], function (err, result) {
+        let query = "DELETE FROM post WHERE postId = ?;";
+        db.query(query, [req.params.id], function (err, result) {
           if (err) throw err;
           res.status(200).json({ message: "suppression du post effectuée" });
         });
@@ -93,8 +93,8 @@ exports.deletePost = (req, res, next) => {
 //MODIFIER UN POST
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
-    let sql = `SELECT * FROM post WHERE id = ?`;
-    db.query(sql, [req.params.id], function (err, result) {
+    let query = `SELECT * FROM post WHERE id = ?`;
+    db.query(query, [req.params.id], function (err, result) {
       if (err) res.status(400).json({ message: "une erreur s'est produite" });
       if (!result[0])
         res
@@ -122,11 +122,11 @@ exports.modifyPost = (req, res, next) => {
         date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
       };
       // MISE A JOUR DE LA DATABASE
-      let sql2 = `UPDATE post
+      let query = `UPDATE post
       SET text = ?, imageUrl= ?, date = ?
       WHERE postid = ?`;
       db.query(
-        sql2,
+        query,
         [post.textToSend, post.imageUrl, post.date, req.params.id],
         function (err, result) {
           if (err) throw err;
@@ -143,9 +143,9 @@ exports.modifyPost = (req, res, next) => {
       date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
     };
     //MISE A JOUR DE LA DATABASE
-    let sql2 = `UPDATE post SET text = ?, date = ? WHERE postid = ?`;
+    let query = `UPDATE post SET text = ?, date = ? WHERE postid = ?`;
     db.query(
-      sql2,
+      query,
       [post.text, post.date, req.params.id],
       function (err, result) {
         if (err) throw err;
