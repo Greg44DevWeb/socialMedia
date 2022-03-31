@@ -11,7 +11,7 @@ const password = require('../Middlewares/password');
 
 
 //***** ROUTES *****//
-router.post("/signup", password, multer, userCtrl.signup);
+router.post("/signup", /*password,*/ multer, userCtrl.signup);
 router.post("/login", EmailControl, userCtrl.login);
 router.delete("/remove/:id", userCtrl.delete);
 router.put("/modifyprofile/:id", authByTokenId, multer, userCtrl.modifyProfilePicture);

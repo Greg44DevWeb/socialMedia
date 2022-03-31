@@ -4,7 +4,7 @@ const morgan = require("morgan"); // Console logger
 const db = require("./config/db"); // Database config and access
 const path =  require("path"); 
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit'); //TODO
+//const rateLimit = require('express-rate-limit'); //TODO
 /*const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 min
     max: 100, // limite chaque IP à 100 requêtes par window de 15min
@@ -17,7 +17,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
-app.use(rateLimit); //TODO
+//app.use(rateLimit); //TODO
 app.use(express.json()); //extrait le corps JSON du frontend
 app.use(express.urlencoded({ extended: true }));
 

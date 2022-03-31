@@ -15,7 +15,7 @@ exports.create = (req, res, next) => {
   db.query(query, [req.body.postId], function (err, result) {
     if (err) 
     res.status(400).json({ err });
-    // Insertion du commentaires et de ses valeurs dans la table comment
+    // Insertion du commentaires et de ses valeurs dans la table comments
     let query = `INSERT INTO comments (comment, authorId, postId) VALUES (?,?,?);`;
     db.query(
       query,

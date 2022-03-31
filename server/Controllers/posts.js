@@ -53,7 +53,7 @@ exports.createPost = (req, res, next) => {
     [post.text, post.imageUrl, post.date, post.authorId],
     function (err, result) {
       if (err) throw err;
-      res.status(200).json({ message: "ressource créé" });
+      res.status(200).json({ message: "message créé" });
     }
   );
 };
@@ -66,7 +66,7 @@ exports.deletePost = (req, res, next) => {
     if (!result[0])
       res.status(400).json({ message: "Pas de correspondance pour cet Id " });
     else {
-      if (result[0].authorId == req.body.userId || req.body.admin == true) {
+      if (result[0].authorId == req.body.userId || req.body.admin == 1) {
         //gestion de l'image a supprimer
         if (result[0].imageUrl != "") {
           const imageName = result[0].imageUrl.split("/images/post/")[1];
