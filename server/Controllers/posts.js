@@ -3,8 +3,6 @@ const db = require("../config/db");
 const fs = require("fs");
 
 
-
-
 //***** POSTS CONTROLLERS *****//
 // AFFICHER TOUS LES POSTS DU PLUS RECENT AU PLUS ANCIEN
 exports.getPosts = (req, res, next) => {
@@ -37,8 +35,7 @@ exports.createPost = (req, res, next) => {
     ? `${req.protocol}://{req.get('host)}/images/post${req.file.filename}`
     : "";
   const textToSend = req.body.text ? req.body.text : "";
-  const post = {
-    // objet du post
+  const post = { // Objet'Post'
     text: textToSend,
     imageUrl: image,
     like: 0,
@@ -93,64 +90,73 @@ exports.deletePost = (req, res, next) => {
 //MODIFIER UN POST
 exports.modifyPost = (req, res, next) => {
   if (req.file) {
-    let query = `SELECT * FROM post WHERE id = ?`;
+    let query = `SELECT * FROM post WHERE postId = ?`;
     db.query(query, [req.params.id], function (err, result) {
-      if (err) res.status(400).json({ message: "une erreur s'est produite" });
+      if (err) res.status(400).json({ e });
       if (!result[0])
         res
           .status(400)
-          .json({ message: "pas de correspondance dans la table" });
+          .json({ message: "Aucun id ne correspond dans la table" });
       else {
-        //Gestion d'une image dans le post
-        const imageName = result[0].imageUrl.split("/images/post/")[1];
-        fs.unlink(`images/${imageName}`, () => {
-          if (err) throw err;
-          console.log("Modification effectuée");
-        });
-      }
-      // IMPORT DES INFOS DU FRONTEND
-      let image = (req.file)
-        ? `${req.protocol}://${req.get("host")}/images/post/${
-            req.file.filename
-          }`
-        : "";
-      let textToSend = (req.body.post) ? req.body.post.text : " ";
-      //objet
-      const post = {
-        text: textToSend,
-        imageUrl: image,
-        date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
-      };
-      // MISE A JOUR DE LA DATABASE
-      let query = `UPDATE post
-      SET text = ?, imageUrl= ?, date = ?
-      WHERE postid = ?`;
-      db.query(
-        query,
-        [post.textToSend, post.imageUrl, post.date, req.params.id],
-        function (err, result) {
-          if (err) throw err;
-          res.status(201).json({ message: "mise à jour du post effectuée" });
+        // SI LE POST A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES
+        if (result[0].imageUrl != "") {
+          const name = result[0].imageUrl.split("/images/post/")[1];
+          fs.unlink(`images/${name}`, () => {
+            if (err) console.log(err);
+            else console.log("Image modifiée !");
+          });
         }
-      );
+        // RECUPERE LES INFOS ENVOYER PAR LE FRONT
+        let image = req.file
+          ? `${req.protocol}://${req.get("host")}/images/post/${
+              req.file.filename
+            }`
+          : "";
+        let textToSend = (req.body.post) ? req.body.post.text : " ";
+        console.log(textToSend);
+        const post = {
+          text: textToSend,
+          imageUrl: image,
+          date: new Date().toLocaleString("af-ZA", {
+            timeZone: "Europe/Paris",
+          }),
+        };
+        // UPDATE LA DB
+        let query = `UPDATE post
+              SET text = ?, imageUrl= ?, date = ?
+              WHERE postId = ?`;
+        db.query(
+          query,
+          [post.text, post.imageUrl, post.date, req.params.id],
+          function (err, result) {
+            if (err) throw err;
+            res.status(201).json({ message: `votre post a été modifié` });
+          }
+        );
+      }
     });
   } else {
-    //Paramètres des infos du FRONTEND
+    // RECUPERE LES INFOS ENVOYEES PAR LE FRONT
     const textToSend = (req.body.post) ? req.body.post.text : " ";
-    //objet
+    console.log('---> contenu du log :' + textToSend);
     const post = {
       text: textToSend,
       date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
     };
-    //MISE A JOUR DE LA DATABASE
-    let query = `UPDATE post SET text = ?, date = ? WHERE postid = ?`;
+    // UPDATE LA DB
+    let query = `UPDATE post
+              SET  text = ?, date =?
+              WHERE postId = ?`;
     db.query(
       query,
       [post.text, post.date, req.params.id],
       function (err, result) {
         if (err) throw err;
-        res.status(201).json({ message: "mise à jour du post effectuée" });
+        res.status(201).json({ message: `votre post a été modifié` });
+        console.log(result);
       }
     );
   }
 };
+
+

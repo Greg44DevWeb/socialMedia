@@ -5,6 +5,7 @@ exports.like = (req, res, next) => {
   let query = "SELECT * FROM groupomania.like;";  //TODO VOIR POUR LE SWITCH
   db.query(query, function (err, results) {
     if (err) res.status(400).json({ err });
+    console.log(results);
     let userLiked = false;
     for (const result of results) {
       if (

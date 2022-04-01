@@ -42,18 +42,20 @@ exports.getComments = (req, res, next) => {
 exports.deleteComments = (req, res, next) => {
   let query = `SELECT * from comments WHERE idComment=?`;
   db.query(query, [req.params.commentId], function (err, result) {
-    if (result[0].authorId == req.body.userId || req.body.admin == true) {
+    res.send(result);
+    if (result[0].authorId == req.body.userId || req.body.admin == 1) {
       if (err) 
       res.status(400).json({ err });
       let query = `DELETE from comments WHERE idComment=?;`;
-      db.query(query, [req.params.commentId], function (err, result) {
+      db.query(query, [req.params.idComment], function (err, result) {
         if (err) 
         res.status(400).json({ err });
         let query = `UPDATE post SET post.comment = post.comment - 1 WHERE postId=?;`;
         db.query(query, [req.params.postId], function (err, result) {
-          if (err) 
+          res.send(result);
+          if (err)           
           res.status(400).json({ err });
-          res.status(200).json(result);
+          res.status(200).json({message: 'commentaire supprimé'});
         });
       });
     } else {

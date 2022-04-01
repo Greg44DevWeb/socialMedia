@@ -114,7 +114,7 @@ exports.delete = (req, res, next) => {
     });
   }
 };
-//****** OBTENIR U N UTILISATEUR *******/
+//****** OBTENIR U NUTILISATEUR *******/
 exports.getOneUser = (req, res, next) => {
   let query = `SELECT * FROM user WHERE user.id = ${req.body.userId};`;
   db.query(query, function (err, result) {
