@@ -93,6 +93,7 @@ exports.modifyPost = (req, res, next) => {
     let query = `SELECT * FROM post WHERE postId = ?`;
     db.query(query, [req.params.id], function (err, result) {
       if (err) res.status(400).json({ e });
+      console.log(result[0]);
       if (!result[0])
         res
           .status(400)
@@ -112,8 +113,8 @@ exports.modifyPost = (req, res, next) => {
               req.file.filename
             }`
           : "";
-        let textToSend = (req.body.post) ? req.body.post.text : " ";
-        console.log(textToSend);
+        let textToSend = (req.body.text) ? req.body.text : " ";
+        console.log(body.text);
         const post = {
           text: textToSend,
           imageUrl: image,
@@ -137,7 +138,7 @@ exports.modifyPost = (req, res, next) => {
     });
   } else {
     // RECUPERE LES INFOS ENVOYEES PAR LE FRONT
-    const textToSend = (req.body.post) ? req.body.post.text : " ";
+    const textToSend = (req.body.text) ? req.body.text: ""; // TODO voir erreur
     console.log('---> contenu du log :' + textToSend);
     const post = {
       text: textToSend,
