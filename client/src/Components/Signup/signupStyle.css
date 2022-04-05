@@ -11,8 +11,14 @@ body {
     font-weight: bolder;
     font-size: 2em;
 }
+.signupContainer {
+    width: auto;
+    Display:flex;
+    flex-direction: column;
+    align-items:center;
+}
 
-.container {  
+.signupMainContainer {  
     
     width: 550px;
     height:500px;
@@ -36,6 +42,7 @@ input {
     background-color: rgb(102, 98, 98);
     outline-color:orange;
     font-size:1.2em;
+    color:orange;
     border-radius: 5px;; 
 }
 

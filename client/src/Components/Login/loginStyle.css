@@ -11,9 +11,13 @@ body {
     font-weight: bolder;
     font-size: 2em;
 }
-
-.container {  
-    
+.loginContainer {
+    width: auto;
+    Display:flex;
+    flex-direction: column;
+    align-items:center;
+}
+.container { 
     width: 550px;
     height:320px;
     background-color: #282c34;
@@ -26,7 +30,6 @@ body {
     
 }
 .logoGroupomania  {
-    
     width: 200px;
 }
 input {
@@ -60,5 +63,12 @@ input {
     cursor:pointer;
 }
 
+a {
+    color:rgb(205, 206, 206);
+}
+a:Hover {
+    color:orange;
+    transition:0.3s;
+}
 
 
