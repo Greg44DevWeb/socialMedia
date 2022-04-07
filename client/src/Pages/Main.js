@@ -1,11 +1,10 @@
 import React from 'react';
-
-const Post = () => {
+const Main = () => {
     return (
         <div>
-            
+            main
         </div>
     );
 };
 
-export default Post;
+export default Main;

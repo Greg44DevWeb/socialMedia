@@ -71,4 +71,21 @@ a:Hover {
     transition:0.3s;
 }
 
+.success {
+    
+    width: 550px;
+    height:320px;
+    background-color: rgb(177, 116, 116);
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+;}
+#errMsg {
+    font-weight: bold;
+    color: rgb(151, 43, 43)
+}
 
+h1 {
+    color:red;
+}

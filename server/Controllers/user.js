@@ -50,31 +50,35 @@ exports.signup = (req, res, next) => {
   });
 };
 
+
+
 //****** LOGIN USER ***************/
 exports.login = (req, res, next) => {
   let query = `SELECT * FROM user WHERE email=?`;
   db.query(query, [req.body.email], function (err, result) {
     let user = result[0];
-    if (!user) return res.status(401).json({ error: "Email incorrect" });
-    bcrypt
-      .compare(req.body.password, user.password)
-      .then((valid) => {
-        if (!valid) {
-          return res.status(401).json({ error: " Mot de passe invalide !" });
-        }
-        console.log("utilisateur connecté");
-        res.status(200).json({
-          userId: user.id,
-          token: jwt.sign(
-            { userId: user.id },
-            process.env.RANDOM_SECRET_TOKEN,
-            { expiresIn: "12h" }
-          ),
-        });
-      })
-      .catch((error) =>
-        res.status(500).json({ message: "Erreur authentification" })
-      );
+    if (!user) { 
+      return res.status(401).json({ message: "Email incorrect" })
+    } else {
+      console.log(err);
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res.status(401).json({ message: " Mot de passe incorrect !" });
+          }
+          res.status(200).json({
+            message: "Vous êtes connecté(e)",
+            userId: user.id,
+            token: jwt.sign({ userId: user.id }, process.env.RANDOM_SECRET_TOKEN, {
+              expiresIn: "12h",
+            }),
+          });
+        })
+        .catch((error) =>
+          res.status(500).json({ message: "Internal Server Error" })
+        );
+    }
   });
 };
 
@@ -114,7 +118,7 @@ exports.delete = (req, res, next) => {
     });
   }
 };
-//****** OBTENIR U NUTILISATEUR *******/
+//****** OBTENIR UN UTILISATEUR *******/
 exports.getOneUser = (req, res, next) => {
   let query = `SELECT * FROM user WHERE user.id = ${req.body.userId};`;
   db.query(query, function (err, result) {
