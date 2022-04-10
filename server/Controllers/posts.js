@@ -63,7 +63,7 @@ exports.deletePost = (req, res, next) => {
     if (!result[0])
       res.status(400).json({ message: "Pas de correspondance pour cet Id " });
     else {
-      if (result[0].authorId == req.body.userId || req.body.admin == 1) {
+      if (result[0].authorId == req.body.userId) {
         //gestion de l'image a supprimer
         if (result[0].imageUrl != "") {
           const imageName = result[0].imageUrl.split("/images/post/")[1];

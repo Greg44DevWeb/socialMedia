@@ -8,12 +8,14 @@ const authByTokenId = require('../Middlewares/auth');
 const auth = require ('../Middlewares/authGetUser');
 const EmailControl = require('../Middlewares/controleEmail');
 const password = require('../Middlewares/password');
+const authGetUser = require("../Middlewares/authGetUser");
+
 
 
 //***** ROUTES *****//
 router.post("/signup", /*password,*/ multer, userCtrl.signup);
 router.post("/login", EmailControl, userCtrl.login);
-router.delete("/remove/:id", userCtrl.delete);
+router.delete("/remove/:id", authGetUser, userCtrl.delete);
 router.put("/modifyprofile/:id", authByTokenId, multer, userCtrl.modifyProfilePicture);
 router.put("/modifyAccount/:id", authByTokenId, userCtrl.modifyUserAccount);
 router.put("/modifyPassword/:id", authByTokenId, password, userCtrl.modifyPassword);
