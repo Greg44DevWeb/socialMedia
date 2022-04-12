@@ -1,13 +1,12 @@
 import React from 'react';
 import Navigation from '../Components/Navigation/Navigation';
-import Posts from '../Components/Posts';
-const Home = () => {
+const Register = () => {
     return (
         <div>
             <Navigation />
-            <Posts />
+            S'INSCRIRE
         </div>
     );
 };
 
-export default Home;
+export default Register;

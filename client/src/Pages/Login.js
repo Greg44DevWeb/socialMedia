@@ -1,13 +1,13 @@
 import React from 'react';
 import Navigation from '../Components/Navigation/Navigation';
-import Posts from '../Components/Posts';
-const Home = () => {
+ 
+const Login = () => {
     return (
         <div>
             <Navigation />
-            <Posts />
+            SE CONNECTER
         </div>
     );
 };
 
-export default Home;
+export default Login;

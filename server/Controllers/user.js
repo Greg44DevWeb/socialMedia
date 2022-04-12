@@ -59,8 +59,7 @@ exports.login = (req, res, next) => {
   let query = `SELECT * FROM user WHERE email=?`;
   db.query(query, [req.body.email], function (err, result) {
     let user = result[0];
-    const userId = user.id;
-    const admin = user.admin;
+    
     if (!user) { 
       return res.status(401).json({ message: "Email incorrect" })
     } else {
@@ -75,8 +74,8 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             message: "Vous êtes connecté(e)",
             userId: user.id,
-            admin: admin,
-            token: jwt.sign({userId, admin}, process.env.RANDOM_SECRET_TOKEN, {
+            loggedIn: true,
+            token: jwt.sign({userId: user.id}, process.env.RANDOM_SECRET_TOKEN, {
               expiresIn: "12h",
             }),
           });

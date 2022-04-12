@@ -4,20 +4,12 @@ const morgan = require("morgan"); // Console logger
 const db = require("./config/db"); // Database config and access
 const path =  require("path"); 
 const helmet = require('helmet');
-//const rateLimit = require('express-rate-limit'); //TODO
-/*const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 min
-    max: 100, // limite chaque IP à 100 requêtes par window de 15min
-    standardHeaders: true, // retourne l'info de limite dans les headers
-    legacyHeaders: false // désactive le 'X-rateLimit-*' headers
-  });*/
 
 // Methode Express
 const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
-//app.use(rateLimit); //TODO
 app.use(express.json()); //extrait le corps JSON du frontend
 app.use(express.urlencoded({ extended: true }));
 
@@ -46,7 +38,6 @@ app.use("/api/users", usersRoutes);
 app.use("/api/post", postRoutes);
 app.use("/api/comment", commentRoutes);
 app.use("api/like", LikesRoutes);
-//TODO RATE LIMITER
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

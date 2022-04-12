@@ -8,9 +8,13 @@ const MIME_TYPES = {
 };
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, 'images/post');
-    },
+    destination: (req, file, cb) => {
+        const pathRoute = req.route.path;
+        // Identification de la destination selon le endpoint utilisé par l'utilisateur
+        if (pathRoute === '/modifyprofile/:id') cb(null, 'images/user');
+        if (pathRoute === '/' || pathRoute === '/:id') cb(null, 'images/post');
+      },
+      
     filename: (req, file, callback) => {
         const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];
