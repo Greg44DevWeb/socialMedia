@@ -1,18 +1,13 @@
 body{
-    width:1250px;
-    height:100%;
-    margin:0 auto;
-  
-   
-    
-    
+  width:1250px;
+  height:100%;
+  margin:0 auto;
 
 }
 
-
 #root {
-    width:1250px;
-    height:100%;
-    margin:0 auto;
-    
+  width:1250px;
+  height:100%;
+  margin:0 auto;
+  font-family: Roboto; 
 }

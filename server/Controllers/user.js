@@ -30,7 +30,11 @@ exports.signup = (req, res, next) => {
             query,
             [user.nom, user.prenom, user.email, user.password, user.imageUrl],
             function (err, result) {
-              if (err) throw err;
+              if (err) {
+                console.log(err);
+                res.sendStatus(500);
+                return;
+            }
               res
                 .status(201)
                 .json({
