@@ -32,7 +32,9 @@ const Login =() => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+       
         navigate('/home');
+
 
         try {
             const response = await axios.post(LOGIN_URL,
@@ -42,10 +44,10 @@ const Login =() => {
                     
                 }
             );
-            console.log(JSON.stringify(response?.data));
+            console.log(JSON.stringify(response.data));
             //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-        
+            const accessToken = response.data.token;
+            localStorage.setItem('token', JSON.stringify(accessToken));
             setAuth({ email, password, accessToken });
             setEmail('');
             setPassword('');

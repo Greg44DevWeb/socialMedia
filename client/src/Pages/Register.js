@@ -81,9 +81,9 @@ const Register = () => {
             );
             
             //console.log(JSON.stringify(response?.data));
-            console.log(JSON.stringify(response))
+            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
+            //Nettoie les états et les imputs controlés
             setNom('');
             setPrenom('');
             setEmail('');
@@ -149,11 +149,7 @@ const Register = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faInfoCircle} />
-                  4 to 24 characters.
-                  <br />
-                  Must begin with a letter.
-                  <br />
-                  Letters, numbers, underscores, hyphens allowed.
+                  Uniquement des Lettres.
                 </p>
                 <label htmlFor="prenom">
                   Prénom :
@@ -188,11 +184,7 @@ const Register = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faInfoCircle} />
-                  4 to 24 characters.
-                  <br />
-                  Must begin with a letter.
-                  <br />
-                  Letters, numbers, underscores, hyphens allowed.
+                  Uniquement des lettres sans accents.
                 </p>
                 <label htmlFor="email">
                   Email :
@@ -227,11 +219,11 @@ const Register = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faInfoCircle} />
-                  4 to 24 characters.
+                  Doit contenir un @
                   <br />
-                  Must begin with a letter.
+                  Est obligatoirement @groupomania.fr
                   <br />
-                  Letters, numbers, underscores, hyphens allowed.
+                  Lettre, nombres, underscores, tirets autorisés.
                 </p>
                 <label htmlFor="password">
                   Mot de passe :
@@ -264,12 +256,11 @@ const Register = () => {
                   }
                 >
                   <FontAwesomeIcon icon={faInfoCircle} />
-                  8 to 24 characters.
+                  5 à 8 caractères.
                   <br />
-                  Must include uppercase and lowercase letters, a number and a
-                  special character.
+                  Doit contenir une majuscule, deux chiffre et un @.
                   <br />
-                  Allowed special characters:{" "}
+                  Caractères spéciaux autorisés :{" "}
                   <span aria-label="exclamation mark">!</span>{" "}
                   <span aria-label="at symbol">@</span>{" "}
                   <span aria-label="hashtag">#</span>{" "}
