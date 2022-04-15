@@ -78,6 +78,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             message: "Vous êtes connecté(e)",
             userId: user.id,
+            email: user.email,
             loggedIn: true,
             token: jwt.sign({userId: user.id}, process.env.RANDOM_SECRET_TOKEN, {
               expiresIn: "12h",
