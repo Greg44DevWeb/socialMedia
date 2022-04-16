@@ -1,7 +1,9 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material'
-import { orange } from '@mui/material/colors';
+import { orange, red } from '@mui/material/colors';
+import { indigo } from '@mui/material/colors';
+
 import Home from './Pages/Home';
 //import Account from './Pages/Account';
 import Register from './Pages/Register/Register';
@@ -17,8 +19,16 @@ const theme = createTheme({
       main: orange[500]
     },
     secondary: {
-    main: orange[400],
-    light: orange[100]
+    main: red[900],
+    light: red[300],
+    },
+    tertiary: {
+      main: indigo[500],
+      contrastText: '#fefefe',
+    },
+    neutral: {
+      main: indigo[500],
+      contrastText: '#fefefe',
     }
   },
 
@@ -32,7 +42,17 @@ const theme = createTheme({
     fontWeightregular: 500,
     fontWeightMedium: 600,
     fontWeightBold: 700,
-  }
+  },
+  transitions: {
+    duration: {
+      shortest: 150,
+      shorter: 200,
+      short: 250,
+    },
+    easing: {
+        easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+}
 })
 function App() {
   return (

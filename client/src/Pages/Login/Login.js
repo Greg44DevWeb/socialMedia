@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import logo from '../../Assets/images/icon-left-font-monochrome-black.svg'
-import './login.css';
+import './login-register.css';
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from '../../API/axios'
@@ -78,7 +78,7 @@ const Login = () => {
                 label="Email"
                 type="email"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={emailErr}
@@ -93,7 +93,7 @@ const Login = () => {
                 label="Mot de passe"
                 type="password"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={passwordErr}

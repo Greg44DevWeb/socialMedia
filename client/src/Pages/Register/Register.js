@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Button from '@mui/material/Button'; 
 import TextField from '@mui/material/TextField';
+import '../Login/login-register.css';
 import logo from '../../Assets/images/icon-left-font-monochrome-black.svg'
 import { NavLink, useNavigate} from 'react-router-dom';
 import axios from '../../API/axios';
@@ -84,7 +85,7 @@ const Register = () => {
                 label="Nom"
                 type="text"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={nomErr}
@@ -97,7 +98,7 @@ const Register = () => {
                 label="Prénom"
                 type="text"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={prenomErr}
@@ -110,7 +111,7 @@ const Register = () => {
                 label="Email"
                 type="email"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={emailErr}
@@ -123,7 +124,7 @@ const Register = () => {
                 label="Mot de passe"
                 type="password"
                 variant="outlined"
-                color="secondary"
+                color="tertiary"
                 fullWidth
                 required
                 error={passwordErr}

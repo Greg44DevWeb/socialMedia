@@ -1,0 +1,33 @@
+.post-wrapper {
+    
+    position:fixed;
+    z-index:-100;
+    margin-top:60px;
+    padding-top: 10px;
+    width:798px;
+    height:auto;
+    border: 1px dotted rgb(196, 196, 196);
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px  rgb(223, 221, 221);;
+    
+}
+
+.postField {
+    
+    width:auto;
+    padding: 10px;
+}
+
+button {
+    background-color: transparent;
+    border:none;
+    outline:none;
+}
+
+.listItems {
+    padding: 0 10px;
+    width:auto;
+    display:flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
