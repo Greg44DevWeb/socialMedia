@@ -1,0 +1,35 @@
+.main-wrapper {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    position: absolute; /* postulat de départ */
+    top: 50%; left: 50%; /* à 50%/50% du parent référent */
+    transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+}
+
+.right-wrapper,
+.left-wrapper {
+    width: 400px;
+    height: auto;
+    text-align: center;
+}
+
+.logo-login {
+    width:250px;
+}
+
+.field {
+    width:auto;
+    height:auto;
+    margin-bottom: 10px;
+}
+
+.alert {
+    padding-top: 10px;
+    height:20px;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+

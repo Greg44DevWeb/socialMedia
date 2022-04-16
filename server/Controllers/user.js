@@ -39,6 +39,7 @@ exports.signup = (req, res, next) => {
                 .status(201)
                 .json({
                   message: ` ${user.prenom} ${user.nom} est inscrit(e)`,
+                  signup: true,
                 });
             }
           );

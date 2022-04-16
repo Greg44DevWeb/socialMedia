@@ -4,8 +4,8 @@ import '../App.css';
 
 const Home = () => {
     return (
-        <div className="main-wrapper">
-            < Navigation/>
+        <div>
+            HOME
         </div>
     );
 };
