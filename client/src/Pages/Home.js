@@ -1,16 +1,14 @@
+
 import React from 'react';
-import NavbarTop from '../Components/Navbar/NavbarTop';
-import AddPost from '../Components/PostArea/AddPost';
+import Navigation from '../Components/Navbar/Navigation';
 
-
-import '../App.css';
 
 const Home = () => {
+   
     return (
-        <div>
-            <NavbarTop />
-            <AddPost />
-        </div>
+      <div>
+            <Navigation />  
+      </div>
     );
 };
 

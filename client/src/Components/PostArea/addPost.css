@@ -7,8 +7,9 @@
     width:798px;
     height:auto;
     border: 1px dotted rgb(196, 196, 196);
-    border-radius: 5px;
-    box-shadow: 5px 5px 15px  rgb(223, 221, 221);;
+    border-bottom-left-radius: 5px;
+    border-bottom-Right-radius: 5px;
+    box-shadow: 1px 8px 15px rgb(223, 221, 221);;
     
 }
 

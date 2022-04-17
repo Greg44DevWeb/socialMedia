@@ -1,14 +1,13 @@
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material'
-import { orange, red } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
 import { indigo } from '@mui/material/colors';
 
 import Home from './Pages/Home';
 //import Account from './Pages/Account';
 import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
-
 import './App.css';
 
 
@@ -16,7 +15,7 @@ import './App.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: orange[500]
+      main: indigo[500]
     },
     secondary: {
     main: red[900],
@@ -27,13 +26,9 @@ const theme = createTheme({
       contrastText: '#fefefe',
     },
     neutral: {
-      main: indigo[500],
-      contrastText: '#fefefe',
+      main: indigo[100],
+      contrastText: '#1a237e',
     }
-  },
-
-  status: {
-    danger: orange[500],
   },
 
   typography: {
@@ -52,21 +47,22 @@ const theme = createTheme({
     easing: {
         easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
   },
-}
+},
+ 
 })
 function App() {
   return (
-<ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element ={ <Login /> }/>
-        <Route exact path="/Home" element ={ <Home /> }/>
-        <Route exact path="/register" element ={ <Register /> }/>
-        {/* <Route path="/account" element ={ <Account /> }/> */}
-        {/* <Route path ="*" element = { < Error /> } /> */}
-        </Routes>
-    </BrowserRouter>
-  </ThemeProvider>
+    <ThemeProvider theme={theme}>   
+      <BrowserRouter> 
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route exact path="/Home" element={<Home />} />
+            <Route exact path="/register" element={<Register />} />
+            {/* <Route path="/account" element ={ <Account /> }/> */}
+            {/* <Route path ="*" element = { < Error /> } /> */}   
+          </Routes>      
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

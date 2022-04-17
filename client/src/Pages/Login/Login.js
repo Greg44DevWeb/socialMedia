@@ -78,7 +78,7 @@ const Login = () => {
                 label="Email"
                 type="email"
                 variant="outlined"
-                color="tertiary"
+                color="primary"
                 fullWidth
                 required
                 error={emailErr}

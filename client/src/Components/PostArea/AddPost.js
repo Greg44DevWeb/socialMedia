@@ -13,7 +13,7 @@ const AddPost = () => {
             <TextField
               id="outlined-basic"
               className="field"
-              label="Ecrivez quelque-chose"
+              label="Ecrivez quelque-chose..."
               type="email"
               variant="outlined"
               color="tertiary"
@@ -28,19 +28,18 @@ const AddPost = () => {
           <ul className="listItems">
             <li className="item-icon">
               <Button 
-              variant="outlined" 
-              color="tertiary" 
-              size="small"
-              type="file">
+                variant="outlined" 
+                color="tertiary" 
+                size="small"
+                type="file">
                 <AddPhotoAlternateIcon />
               </Button>
             </li>
             <li className="item-icon">
               <Button 
-              
-              variant="outlined" 
-              color="tertiary" 
-              size="small">
+                variant="outlined" 
+                color="tertiary" 
+                size="small">
                 <SendIcon />
               </Button>
             </li>
