@@ -39,7 +39,8 @@ exports.createPost = (req, res, next) => {
     text: textToSend,
     imageUrl: image,
     like: 0,
-    date: new Date().toLocaleDateString("us", /*{ timeZone: "Europe/Paris" }*/), //TODO CORRECTION DATE
+    date: new Date().toLocaleString("af-ZA", {
+      timeZone: "Europe/Paris", }), //TODO CORRECTION DATE
     authorId: req.body.id,
   };
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES

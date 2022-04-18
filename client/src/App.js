@@ -9,6 +9,7 @@ import Home from './Pages/Home';
 import Register from './Pages/Register/Register';
 import Login from './Pages/Login/Login';
 import './App.css';
+import { grey } from '@mui/material/colors';
 
 
 
@@ -28,7 +29,11 @@ const theme = createTheme({
     neutral: {
       main: indigo[100],
       contrastText: '#1a237e',
+    },
+    text: {
+      main: grey[900],
     }
+
   },
 
   typography: {
