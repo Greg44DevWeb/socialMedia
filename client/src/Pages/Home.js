@@ -8,49 +8,34 @@ import { Paper } from '@mui/material';
 
 
 const POST_URL = '/post/getAll';
-const DELETE_POST_URL ='post/id/';
+
 
 const Home = () => {
-  const [data, setData] = useState ([]);
+  const [posts, setPosts] = useState ([]);
 
 
   useEffect(() => {
     axios.get(POST_URL,
     {
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+          'Content-Type': 'application/json',
+         Authorization : `Bearer ${localStorage.getItem('token')}`}
     })
-  .then((res)=>setData(res.data))
+  .then((res)=>setPosts(res.data))
+  console.log(posts)
  
   },[]);
-
-    const handleDelete = async (id) => {
-     try { 
-      await axios.delete(DELETE_POST_URL + id,
-        {
-          headers: {'Content-Type': 'application/json'}
-      })
-      .then((res)=>console.log(res.data))
-        const newPost = data.filter(data => data.postId !== id)
-        setData(newPost)
-      }catch(err){
-        console.log(err);
-      }
-    }
-
+ 
     return (
       <div>
-           
-            <Navigation />
-            <Container maxWidth="sm" component="section" sx={{mt : 8}}>
-                 <Grid container spacing={3}>
-              {data.map((post, index) => (
-                <Grid item key={index} xs={12} md={12} lg={12}>
-                  <Paper elevation={10}>
-                    <PostCard  post={post} handleDelete={handleDelete}/>
-                  </Paper>
-             </Grid>))}
-             </Grid>
-          </Container>
+        <Navigation />
+        <Container maxWidth="sm" component="section" sx={{ mt: 8 }}>
+          <Grid container spacing={3}>
+            <Grid component="article" item xs={12} md={12} lg={12}>
+              <PostCard posts={posts} />
+            </Grid>
+          </Grid>
+        </Container>
       </div>
     );
 };

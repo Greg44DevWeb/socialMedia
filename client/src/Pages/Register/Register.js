@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button'; 
 import TextField from '@mui/material/TextField';
 import '../Login/login-register.css';
-import logo from '../../Assets/images/icon-left-font-monochrome-black.svg'
+import logo from '../../assets/images/icon-left-font-monochrome-black.svg'
 import { NavLink, useNavigate} from 'react-router-dom';
 import axios from '../../API/axios';
-
+import { Typography } from '@mui/material';
 const signUpUrl = '/users/signup'
 const Register = () => {
 
@@ -129,8 +129,7 @@ const Register = () => {
                 required
                 error={passwordErr}
               />
-            </div>
-            
+            </div>     
             <Button
               variant="contained"
               onClick={() => console.log("click!!")}
@@ -146,6 +145,9 @@ const Register = () => {
             <span> Se connecter</span>
           </NavLink>
         </section>
+        <Typography variant="body1" component="p" sx={{mt:2}}>
+         Copyright (C) - Groupomania 2022
+       </Typography>
       </div>
     </div>
         <section className="alert">

@@ -33,7 +33,6 @@ const theme = createTheme({
     text: {
       main: grey[900],
     }
-
   },
 
   typography: {

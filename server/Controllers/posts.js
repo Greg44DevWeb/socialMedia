@@ -35,12 +35,18 @@ exports.createPost = (req, res, next) => {
     ? `${req.protocol}://{req.get('host)}/images/post${req.file.filename}`
     : "";
   const textToSend = req.body.text ? req.body.text : "";
+  const Options = {
+    year: 'numeric',
+    month: 'long',
+    day: "numeric",
+    hour: 'numeric',
+    minute: 'numeric',
+  }
   const post = { // Objet'Post'
     text: textToSend,
     imageUrl: image,
     like: 0,
-    date: new Date().toLocaleString("af-ZA", {
-      timeZone: "Europe/Paris", }), //TODO CORRECTION DATE
+    date: new Date().toLocaleString("fr-Fr", Options), //TODO CORRECTION DATE
     authorId: req.body.id,
   };
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES
@@ -58,33 +64,31 @@ exports.createPost = (req, res, next) => {
 
 // SUPPRIMER UN POST
 exports.deletePost = (req, res, next) => {
-  let query = "SELECT * FROM post WHERE postId = ?;";
-  db.query(query, [req.params.id], function (err, result) {
-    if (err) res.status(400).json({ message: "une erreur s'est produite" });
-    if (!result[0])
-      res.status(400).json({ message: "Pas de correspondance pour cet Id " });
-    else {
-      if (result[0].authorId == req.body.userId) {
-        //gestion de l'image a supprimer
-        if (result[0].imageUrl != "") {
-          const imageName = result[0].imageUrl.split("/images/post/")[1];
-          fs.unlink(`images/post/${imageName}`, () => {
-            if (err) throw err;
-            console.log("suppression effectuée");
-          });
-        }
-        //MISE A JOUR DB PAR SUPPRESSION DU POST
-        let query = "DELETE FROM post WHERE postId = ?;";
-        db.query(query, [req.params.id], function (err, result) {
-          if (err) throw err;
-          res.status(200).json({ message: "suppression du post effectuée" });
-        });
-      } else {
-        res
-          .status(400)
-          .json({ message: "Vous ne pouvez pas supprimer ce post" });
+  let query = `SELECT * FROM post WHERE postId = ?`;
+  db.query(query, [req.body.postId], function (err, result) {
+      if (err) res.status(400).json({ err });
+      if (!result[0]) res.status(400).json({ message: "Aucun id ne correspond dans la table" });
+      else {
+          if (result[0].authorId == req.body.userId || req.body.admin == true) {
+              // SI LE POST A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES
+              if (result[0].imageUrl != "") {
+                  const name = result[0].imageUrl.split('/images/post/')[1];
+                  fs.unlink(`images/post/${name}`, () => {
+                      if (err) console.log(err);
+                      else console.log('Image supprimée  !');
+                  })
+              }
+              // SUPPRIME LE POST DANS LA DB
+              let query = `DELETE FROM post WHERE postId = ?`;
+              db.query(query, [req.body.postId], function (err, result) {
+                  if (err) throw err;
+                  res.status(201).json({ message: 'Post supprimé' });
+              });
+          } else {
+              res.status(401).json({message : "Vous ne pouvez pas supprimer ce post"});
+          }
+
       }
-    }
   });
 };
 
@@ -116,12 +120,17 @@ exports.modifyPost = (req, res, next) => {
           : "";
         let textToSend = (req.body.text) ? req.body.text : " ";
         console.log(body.text);
+        const Options = {
+          year: 'numeric',
+          month: 'long',
+          day: "numeric",
+          hour: 'numeric',
+          minute: 'numeric',
+        }
         const post = {
           text: textToSend,
           imageUrl: image,
-          date: new Date().toLocaleString("af-ZA", {
-            timeZone: "Europe/Paris",
-          }),
+          date: new Date().toLocaleString("fr-Fr", Options),
         };
         // UPDATE LA DB
         let query = `UPDATE post
@@ -141,9 +150,16 @@ exports.modifyPost = (req, res, next) => {
     // RECUPERE LES INFOS ENVOYEES PAR LE FRONT
     const textToSend = (req.body.text) ? req.body.text: ""; // TODO voir erreur
     console.log('---> contenu du log :' + textToSend);
+    const Options = {
+      year: 'numeric',
+      month: 'long',
+      day: "numeric",
+      hour: 'numeric',
+      minute: 'numeric',
+    }
     const post = {
       text: textToSend,
-      date: new Date().toLocaleString("af-ZA", { timeZone: "Europe/Paris" }),
+      date: new Date().toLocaleString("fr-Fr", Options),
     };
     // UPDATE LA DB
     let query = `UPDATE post

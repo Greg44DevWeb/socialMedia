@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import logo from '../../Assets/images/icon-left-font-monochrome-black.svg'
+import logo from '../../assets/images/icon-left-font-monochrome-black.svg'
 import './login-register.css';
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from '../../API/axios'
+import { Typography } from "@mui/material";
 
 const loginUrl = '/users/login'
 
@@ -115,7 +116,9 @@ const Login = () => {
             <span> S'inscrire</span>
           </NavLink>
         </section>
-       
+        <Typography variant="body1" component="p" sx={{mt:2}}>
+         Copyright (C) - Groupomania 2022
+       </Typography>
       </div> 
       <section className="alert">
       <span className="errMsg">{err}</span>

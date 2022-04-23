@@ -80,8 +80,11 @@ exports.login = (req, res, next) => {
             message: "Vous êtes connecté(e)",
             userId: user.id,
             email: user.email,
+            firstname: user.nom,
+            lastname: user.prenom,
+            admin: user.admin,
             loggedIn: true,
-            token: jwt.sign({userId: user.id}, process.env.RANDOM_SECRET_TOKEN, {
+            token: jwt.sign({userId: user.id, email:user.email, firstname:user.nom, lastname:user.prenom, admin:user.admin}, process.env.RANDOM_SECRET_TOKEN, {
               expiresIn: "12h",
             }),
           });
