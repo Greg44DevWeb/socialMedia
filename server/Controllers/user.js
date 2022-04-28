@@ -219,7 +219,7 @@ exports.modifyProfilePicture = (req, res, next) => {
       if (!result[0])
         res
           .status(400)
-          .json({ message: "paas de correspondance d'Id dans la table" });
+          .json({ message: "pas de correspondance d'Id dans la table" });
       else {
         // SI LE USER A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES/PROFILE
         if (result[0].pp != "http://localhost:3000/images/profile/pp.png") {

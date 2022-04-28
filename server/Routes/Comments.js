@@ -8,5 +8,5 @@ const commentController = require('../Controllers/comments');
 router.post("/",/*auth,*/ commentController.create);
 router.get("/",auth, commentController.getComments);
 router.delete("/:commentId/:postId", auth, commentController.deleteComments);
-
+router.get("/:postId", auth, commentController.getCommentBypostId);
 module.exports = router;

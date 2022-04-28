@@ -20,7 +20,7 @@ function handleClick(e) {
     return (
       <Container component="header">
         <AppBar
-        component="navbar"
+        component="NavBar"
           sx={{
             width: "100%",
             position: "fixed",

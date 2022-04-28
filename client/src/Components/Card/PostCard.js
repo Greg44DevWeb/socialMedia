@@ -8,8 +8,8 @@ import { CardContent } from '@mui/material';
 import { Typography, Paper } from '@mui/material';
 import { Avatar } from '@mui/material';
 import axios from '../../API/axios'
-import Comments from '../Comments/Comments';
-import SendComment from '../Comments/SendComment';
+//import Comments from '../Comments/Comments';
+//import SendComment from '../Comments/SendComment';
 //import axios from 'axios';
 const DELETE_POST_URL ='/post/';
 
@@ -61,12 +61,12 @@ const PostCard = ({ posts }) => {
               subheader={post.date}
               
             />
-            <CardContent component="p">
-              <Typography component="p" variant="button" color="neutral">
+            <CardContent >
+              <Typography  variant="button" color="neutral">
                 {post.text}
               </Typography>
-              <Comments/>
-              <SendComment />
+              {/* <Comments/>
+              <SendComment /> */}
             </CardContent>
             
           </Card>

@@ -8,7 +8,11 @@ import { Skeleton } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { Grid } from '@mui/material';
 import { InputAdornment } from '@mui/material';
+
+
 const SendComment = () => {
+console.log()
+    
     return (
         <Container>
          <FormControl fullWidth >    
