@@ -1,42 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import Navigation from '../Components/Navbar/Navigation';
-import PostCard from '../Components/Card/PostCard';
-import { Container } from '@mui/material';
-import { Grid } from '@mui/material';
-import axios from '../API/axios';
-import { Paper } from '@mui/material';
+import React  from 'react';
 
+//*** COMPONENTS IMPORTS ***//
+import Feed from '../Components/Feed';
+import Rightbar from '../Components/Rightbar';
+import Sidebar from '../Components/Sidebar/Sidebar.jsx';
+import Navbar from '../Components/Navbar/Navbar';
 
-const POST_URL = '/post/getAll';
-
+//*** MATERIAL UI IMPORTS ***//
+import { Box, Stack } from '@mui/material';
 
 const Home = () => {
-  const [posts, setPosts] = useState ([]);
 
-
-  useEffect(() => {
-    axios.get(POST_URL,
-    {
-        headers: {
-          'Content-Type': 'application/json',
-         Authorization : `Bearer ${localStorage.getItem('token')}`}
-    })
-  .then((res)=>setPosts(res.data))
-  console.log(posts)
- 
-  },[]);
- 
     return (
-      <div>
-        <Navigation />
-        <Container maxWidth="sm" component="section" sx={{ mt: 8 }}>
-          <Grid container spacing={3}>
-            <Grid component="article" item xs={12} md={12} lg={12}>
-              <PostCard posts={posts} />
-            </Grid>
-          </Grid>
-        </Container>
-      </div>
+        <Box>
+            <Navbar/>
+            <Stack 
+            direction="row" 
+            spacing={2} 
+            justifyContent="space-between"
+            >
+            <Sidebar/>
+            <Feed/>
+            <Rightbar/>
+            </Stack>
+        </Box>
     );
 };
 

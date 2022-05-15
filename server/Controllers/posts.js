@@ -7,7 +7,7 @@ const fs = require("fs");
 // AFFICHER TOUS LES POSTS DU PLUS RECENT AU PLUS ANCIEN
 exports.getPosts = (req, res, next) => {
   let query =
-    "SELECT * FROM post p JOIN user WHERE user.id = authorId ORDER BY date DESC LIMIT 50;";
+    "SELECT * FROM post p JOIN user WHERE user.id = authorId ORDER BY postId DESC LIMIT 50;";
   db.query(query, function (err, result) {
     if (err)
       res.status(400).json({ message: "impossible d'afficher les posts" });
@@ -32,7 +32,7 @@ exports.getPostsByAuthor = (req, res, next) => {
 exports.createPost = (req, res, next) => {
   //PARAMETRE DES DONNES COMPLETEES
   const image = req.file
-    ? `${req.protocol}://{req.get('host)}/images/post${req.file.filename}`
+    ? `${req.protocol}://${req.get('host')}/images/post${req.file.filename}`
     : "";
   const textToSend = req.body.text ? req.body.text : "";
   const Options = {

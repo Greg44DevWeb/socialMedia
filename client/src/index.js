@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { AuthProvider } from './Context/AuthProvider';
+import { theme} from './Context/theme.js';
 import { CssBaseline } from '@mui/material';
 import './index.css';
+import { ThemeProvider } from '@mui/material';
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
+    <ThemeProvider theme={theme}>
       <CssBaseline/>
       <App />
-    </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

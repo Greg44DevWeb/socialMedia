@@ -41,8 +41,8 @@ exports.getComments = (req, res, next) => {
 
 //OBTENIR LES COMMENTAIRES PAR POSTS
 exports.getCommentBypostId = (req, res, next) => {
-  let query = `SELECT * FROM post p, comments c WHERE c.postId = p.postId;`;
-  db.query(query, function(err, result) {
+  let query = `SELECT * FROM comments c WHERE c.postId=?;`;
+  db.query(query,[req.params.postId] ,function(err, result) {
 
     if(err)
     res.status(400).json({err});
