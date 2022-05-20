@@ -41,37 +41,50 @@ exports.getComments = (req, res, next) => {
 
 //OBTENIR LES COMMENTAIRES PAR POSTS
 exports.getCommentBypostId = (req, res, next) => {
-  let query = `SELECT * FROM comments c WHERE c.postId=?;`;
+  let query = `SELECT * from comments c JOIN user u WHERE c.authorId = u.id AND postId=?;`;
   db.query(query,[req.params.postId] ,function(err, result) {
-
+    
     if(err)
     res.status(400).json({err});
     res.status(200).json(result);
   });
 };
 
-// DELETE COMMENTS
-exports.deleteComments = (req, res, next) => {
-  let query = `SELECT * from comments WHERE idComment=?`;
-  db.query(query, [req.params.idComment], function (err, result) {
-    res.send(result);
-    if (result[0].authorId == req.body.userId || req.body.admin == 1) {
-      if (err) 
-      res.status(400).json({ err });
-      let query = `DELETE from comments WHERE idComment=?;`;
-      db.query(query, [req.params.idComment], function (err, result) {
-        if (err) 
-        res.status(400).json({ err });
-        let query = `UPDATE post SET post.comment = post.comment - 1 WHERE postId=?;`;
-        db.query(query, [req.params.postId], function (err, result) {
-          res.send(result);
-          if (err)           
-          res.status(400).json({ err });
-          res.status(200).json({message: 'commentaire supprimé'});
-        });
-      });
+// // DELETE COMMENTS
+// exports.deleteComments = (req, res) => {
+//   let query = `SELECT * from comments WHERE idComment=?`;
+//   db.query(query, [req.params.idComment], function (err, result) {
+//     res.send(result);
+//     if (result[0].authorId == req.body.userId || req.body.admin == 1) {
+//       if (err) 
+//       res.status(400).json({ err });
+//       let query = `DELETE from comments WHERE idComment=?;`;
+//       db.query(query, [req.params.idComment], function (err, result) {
+//         if (err) 
+//         res.status(400).json({ err });
+//         let query = `UPDATE post SET post.comment = post.comment - 1 WHERE postId=?;`;
+//         db.query(query, [req.params.postId], function (err, result) {
+//           res.send(result);
+//           if (err)           
+//           res.status(400).json({ err });
+//           res.status(200).json({message: 'commentaire supprimé'});
+//         });
+//       });
+//     } else {
+//       res.status(400).json({ message: "Vous ne pouvez pas supprimer ce commentaire" });
+//     }
+//   });
+// };
+
+// DELETE COMMENT
+exports.deleteOneComment = (req, res) => {
+  let query = `DELETE from comments WHERE idComment=?;`;
+  db.query(query, [req.params.idComment], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
     } else {
-      res.status(400).json({ message: "Vous ne pouvez pas supprimer ce commentaire" });
+      res.status(200).json({ message: "commentaire supprimé" });
     }
   });
 };

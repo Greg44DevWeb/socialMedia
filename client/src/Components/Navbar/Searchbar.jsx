@@ -46,7 +46,7 @@ const Searchbar = () => {
             sx={{ width:35, height:35}}
           onClick={(e) => setOpenMenu(true)}  
             />
-        <Typography>{userToken.firstname}</Typography>
+        <Typography>{userToken.firstname} {userToken.lastname}</Typography>
         </Icons>
         <Menu   
         sx={{ display : { xs:"block", sm:"block" } }}

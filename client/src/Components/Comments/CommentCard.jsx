@@ -1,29 +1,49 @@
-import { Typography } from '@mui/material';
 import React, {useContext} from 'react';
 
 //*** CONTEXT ***//
 import { UserContext } from '../../Context/userContext';
 
+//*** MATERIAL UI IMPORTS ***//
+import styled from '@emotion/styled';
+import { Typography } from '@mui/material';
+
+//*** COMPONENT IMPORT ***//
+import DeleteComment from './DeleteComment';
+
+//*** MATERIAL UI STYLES ***//
+const DeleteButton = styled("div") (({theme})=>({
+    backgroundColor: "white",
+    display: "flex",
+    gap: "20px",
+    justifyContent:"space-between",
+    alignItems:"center",
+    padding:"0 10px",
+    borderRadius: theme.shape.borderRadius,
+    width: "100%",
+}));
+
+
 const CommentCard = ({comment}) => {
     const { userToken } = useContext(UserContext);
-    console.log(userToken.firstname)
-
-    console.log("Contenu du commentaire" + comment.comment);
-    console.log("ID du commentaire" + comment.idComment);
-    console.log("Id du post du Commentaire" + comment.postId);
-    
-
-    // if(comment.postId === postId) {
-    //     console.log('ok')
-    // }else{
-    //     console.log('ca marche pas')
-    // }
     
     return (
         <div>
-
-            <Typography variant="H5" color="text.main">{userToken.firstname}  a commenté :</Typography>
-            <Typography variant="body2">{comment.comment}</Typography>
+            <DeleteButton>
+                <Typography 
+                variant="subtitle2" 
+                color="text.main">
+                    {comment.nom} {comment.prenom}  a commenté :
+                </Typography>
+                {comment.authorId === userToken.userId || userToken.admin === 1 ? (   
+                < DeleteComment comment={comment} />   ):
+                ('')
+                }
+            </DeleteButton>
+                <Typography 
+                variant="body2"
+                sx={{mb: 2}}>
+                    "{comment.comment}"
+                </Typography>  
         </div>
     );
 };

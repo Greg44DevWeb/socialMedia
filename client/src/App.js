@@ -20,8 +20,9 @@ function App() {
     const [userToken, setUserToken] = useState('');
     const [userId, setUserId] = useState('');
     const [admin, setAdmin] = useState('');
-    const [loggedIn, setLoggedIn] = useState('');
+    const [loggedIn, setLoggedIn] = useState(false);
     const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
 
     useEffect(() => {
       const token = localStorage.getItem("token");
@@ -35,6 +36,8 @@ function App() {
           setAdmin(admin);
           setLoggedIn(true)
           setFirstname(firstname);
+          setLastname(lastname);
+          
         } else {
           localStorage.clear();
           navigate("/");
@@ -43,6 +46,7 @@ function App() {
           setAdmin('');
           setLoggedIn('')
           setFirstname('');
+          setLastname('');
         }
         if(userToken.admin === 1) {
           setAdmin(true)
@@ -50,11 +54,11 @@ function App() {
           setAdmin(false)
         }
       }
-    }, [firstname, loggedIn, userId, admin]);
+    }, [firstname,lastname, loggedIn, userId, admin]);
 
   return (
     
-    <UserContext.Provider value={{ userToken, loggedIn, setLoggedIn, userId, setUserId, admin, firstname}}>
+    <UserContext.Provider value={{ userToken, loggedIn, setLoggedIn, userId, setUserId, admin, firstname, lastname}}>
     <BrowserRouter>
       <Routes>
       <Route exact path="/" element={<LoginPage />} />

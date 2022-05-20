@@ -26,6 +26,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import styled from '@emotion/styled';
+import PostComment from '../Comments/PostComment';
 
 
 //*** MATERIAL UI STYLES ***//
@@ -71,7 +72,7 @@ const Postcard = ({ post }) => {
                   <MoreVertIcon />
                 </IconButton>
               }
-              title={post.prenom + " a posté le :"}
+              title={[post.nom] + " " + [post.prenom] + " a posté le :"}
               subheader={post.date}
             />
             <CardMedia
@@ -81,20 +82,23 @@ const Postcard = ({ post }) => {
               alt="image attachée au post"
             />
             <CardContent>
-              <Typography variant="body1" color="text.main">
+              <Typography
+                variant="body1"
+                color="text.main"
+                aria-label="texte du post"
+              >
                 {post.text}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="Aimer le post">
+              <IconButton 
+              aria-label="Aimer le post"> {/* //TODO CREER LE COMPOSANT */}
                 <Checkbox
                   icon={<FavoriteBorderIcon />}
                   checkedIcon={<Favorite />}
                 />
               </IconButton>
-              {/* <IconButton aria-label="share">
-                            <ShareIcon />
-                        </IconButton> */}
+             < PostComment />
               <ExpandMore
                 expand={expanded}
                 aria-expanded={expanded}
