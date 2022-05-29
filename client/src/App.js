@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import { theme } from './Context/theme.js';
+import { ThemeProvider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './Context/userContext';
 import jwt_decode from "jwt-decode";
@@ -10,6 +12,8 @@ import './App.css';
 import Home from './Pages/Home';
 import LoginPage from './Pages/LoginPage';
 import Error404 from './Pages/Error404';
+
+
 
 
 
@@ -57,17 +61,28 @@ function App() {
     }, [firstname,lastname, loggedIn, userId, admin]);
 
   return (
-    
-    <UserContext.Provider value={{ userToken, loggedIn, setLoggedIn, userId, setUserId, admin, firstname, lastname}}>
-    <BrowserRouter>
-      <Routes>
-      <Route exact path="/" element={<LoginPage />} />
-        <Route exact path="/home" element={<Home />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-    </BrowserRouter>
-    </UserContext.Provider>
-    
+    <ThemeProvider theme={theme}>
+      <UserContext.Provider
+        value={{
+          userToken,
+          loggedIn,
+          setLoggedIn,
+          userId,
+          setUserId,
+          admin,
+          firstname,
+          lastname,
+        }}
+      >
+        <BrowserRouter>
+          <Routes>
+            <Route exact path="/" element={<LoginPage />} />
+            <Route exact path="/home" element={<Home />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>
+        </BrowserRouter>
+      </UserContext.Provider>
+    </ThemeProvider>
   );
 }
 

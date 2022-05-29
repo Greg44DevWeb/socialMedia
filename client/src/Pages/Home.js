@@ -12,18 +12,22 @@ import { Box, Stack } from '@mui/material';
 const Home = () => {
 
     return (
-        <Box>
+        
+        <Box bgcolor={"background.default"} color={"text.primary"}>
             <Navbar/>
             <Stack 
             direction="row" 
             spacing={2} 
             justifyContent="space-between"
             >
-            <Sidebar/>
+            <Sidebar />
             <Feed/>
             <Rightbar/>
-            </Stack>
+            </Stack> 
+                      
         </Box>
+        
+        
     );
 };
 

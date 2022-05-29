@@ -19,11 +19,13 @@ import PolicyIcon from '@mui/icons-material/Policy';
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import ModeNightIcon from '@mui/icons-material/ModeNight';
+import { Switch } from '@mui/material';
 
 
 
 //*** COMPONENTS IMPPORTS ***//
-// import LoginModal from './LoginModal';
+import Subscribe from './../Subscribe/Subscribe';
 
 const Sidebar = () => {
   const { admin } = useContext(UserContext); //Verification du status pour afficher des composants 
@@ -40,7 +42,7 @@ const Sidebar = () => {
       top={100}
       flex={3} p={2} 
       sx={{ display: { xs: "none", sm: "block" } }}>
-        
+        <Box position="fixed">
        <List>
           <ListItem disablePadding>
             <ListItemButton>
@@ -82,18 +84,27 @@ const Sidebar = () => {
               <ListItemText primary="Deconnexion" />
             </ListItemButton>
           </ListItem>
+          <ListItem  disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+              <ModeNightIcon/>
+              </ListItemIcon>
+              <Switch />
+            </ListItemButton>
+          </ListItem>
           <>
           {admin === true ? ( <ListItem  disablePadding>
             <ListItemButton>
               <ListItemIcon>
               <AdminPanelSettingsIcon/>
               </ListItemIcon>
-              <ListItemText primary="Inscrire un utilisateur" />
+              < Subscribe />
             </ListItemButton>
           </ListItem>):('')
             }
           </>
        </List>
+       </Box>
       </Box>
     );
     

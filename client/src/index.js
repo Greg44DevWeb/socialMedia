@@ -7,11 +7,12 @@ import './index.css';
 import { ThemeProvider } from '@mui/material';
 
 ReactDOM.render(
+ 
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+   
       <CssBaseline/>
       <App />
-    </ThemeProvider>
+    
   </React.StrictMode>,
   document.getElementById("root")
 );

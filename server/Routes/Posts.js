@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../controllers/posts");
-const authGetUser = require("../middlewares/authGetUser");
+// const authGetUser = require("../middlewares/authGetUser");
 const auth = require("../Middlewares/auth");
-const multer = require("../Middlewares/multer-config");
+const multer = require("../Middlewares/multerUser-config");
 
 router.get("/getAll", auth, postController.getPosts);
 router.post("/", auth, multer, postController.createPost);

@@ -1,7 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+
+//*** CONTEXT ***//
+import { UserContext } from '../../Context/userContext';
 
 //*** COMPONENTS IMPORTS ***//
 import Comments from '../Comments/Comments';
+import PostComment from '../Comments/PostComment';
+import MenuActions from './MenuActions';
 
 //*** MATERIAL UI IMPORTS ***//
 import { Typography } from '@mui/material';
@@ -14,19 +19,16 @@ import { CardContent } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { Paper } from '@mui/material';
 import { Box } from '@mui/material';
-
 import { Collapse } from '@mui/material';
-import { red } from '@mui/material/colors';
 import { Checkbox } from '@mui/material';
 
 //*** MATERIAL UI ICONS IMPORTS ***//
 // import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import styled from '@emotion/styled';
-import PostComment from '../Comments/PostComment';
+
 
 
 //*** MATERIAL UI STYLES ***//
@@ -51,6 +53,8 @@ const ExpandMore = styled((theme) => {
 
 //*** JSX METHOD ***//
 const Postcard = ({ post }) => {
+  const {userToken} = useContext(UserContext);
+
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -69,7 +73,8 @@ const Postcard = ({ post }) => {
               }
               action={
                 <IconButton aria-label="menu">
-                  <MoreVertIcon />
+                   {post.authorId === userToken.userId || userToken.admin === 1 ? ( 
+                  <MenuActions />):('')}
                 </IconButton>
               }
               title={[post.nom] + " " + [post.prenom] + " a posté le :"}
@@ -98,7 +103,7 @@ const Postcard = ({ post }) => {
                   checkedIcon={<Favorite />}
                 />
               </IconButton>
-             < PostComment />
+             < PostComment post={post}/>
               <ExpandMore
                 expand={expanded}
                 aria-expanded={expanded}
@@ -108,7 +113,7 @@ const Postcard = ({ post }) => {
                 <ExpandMoreIcon />
               </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Collapse in={expanded} timeout="auto" unmountOnExit> 
               <CardContent>
                 <Typography paragraph>Commentaires :</Typography>
                 <Comments post={post} />

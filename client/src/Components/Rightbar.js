@@ -11,7 +11,9 @@ const Rightbar = () => {
         
         sx={{ display: { xs: "none", sm: "block" } }}
         >
-RightBar
+            <Box position="fixed">
+            RightBar
+            </Box>
         </Box>
     )
 }

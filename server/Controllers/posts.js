@@ -45,13 +45,13 @@ exports.createPost = (req, res, next) => {
   const post = { // Objet'Post'
     text: textToSend,
     imageUrl: image,
-    like: 0,
-    date: new Date().toLocaleString("fr-Fr", Options), //TODO CORRECTION DATE
-    authorId: req.body.id,
+    date: new Date().toLocaleString("fr-Fr", Options),
+    authorId: req.body.authorId,
   };
+ 
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES
   let query =
-    "INSERT INTO post (text, imageURL, date, authorId) VALUES (?,?,?,?);";
+    "INSERT INTO post (text, imageUrl, date, authorId) VALUES (?,?,?,?);";
   db.query(
     query,
     [post.text, post.imageUrl, post.date, post.authorId],

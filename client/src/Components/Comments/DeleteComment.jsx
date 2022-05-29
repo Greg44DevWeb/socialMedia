@@ -53,16 +53,17 @@ const DeleteComment = ({comment}) => {
           onClick={handleDeleteComment}
         />
         <Snackbar 
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open} 
         autoHideDuration={6000} 
         onClose={handleClose}>
           <Alert
             onClose={handleClose}
+            variant="filled"
             severity="success"
             sx={{ width: "100%" }}
           >
-            {success}!
+            {success}
           </Alert>
         </Snackbar>
       </div>

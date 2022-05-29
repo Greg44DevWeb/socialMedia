@@ -10,6 +10,7 @@ import { Box } from '@mui/material';
 
 //*** COMPONENTS IMPORTS ***//
 import Postcard from './PostCard/Postcard.jsx';
+import AddPost from './PostCard/AddPost.jsx';
 
 //*** MATERIAL UI STYLES ***//
 
@@ -19,7 +20,7 @@ const getAllPost = '/post/getAll'; // request endpoint
 
 const Feed = () => {
 
-const {token} = useContext(UserContext);
+const {userToken} = useContext(UserContext);
 const [posts, setPosts]= useState([]);
 
 
@@ -34,14 +35,17 @@ const [posts, setPosts]= useState([]);
      }, []);
 
     return (
-       
+       <>
         <Box flex={4} p={2}>
         
         {posts.map((post, index) => (
          <Postcard key={index} post={post}/> 
+         
          ))}
-        
+         
         </Box>
+        <AddPost post={posts} />
+        </> 
        
     );
 };

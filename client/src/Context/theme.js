@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 import { indigo, red, grey } from "@mui/material/colors";
 
-export const theme = createTheme({
+ export const theme = createTheme({
     palette: {
         primary: {
           main: indigo[500],
@@ -29,8 +29,6 @@ export const theme = createTheme({
         fontWeightregular: 500,
         fontWeightMedium: 600,
         fontWeightBold: 700,
-      },
-
-     
+      },  
 });
 

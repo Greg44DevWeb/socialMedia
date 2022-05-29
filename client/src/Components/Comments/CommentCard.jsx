@@ -12,7 +12,7 @@ import DeleteComment from './DeleteComment';
 
 //*** MATERIAL UI STYLES ***//
 const DeleteButton = styled("div") (({theme})=>({
-    backgroundColor: "white",
+    backgroundColor: "Background.default",
     display: "flex",
     gap: "20px",
     justifyContent:"space-between",
