@@ -35,13 +35,15 @@ const PostComment = ({post}) => {
 
     const {userToken} = useContext(UserContext);   
 
-    const[comment, setComment] = useState('');
+    const [comment, setComment] = useState('');
     const [authorId, setAuthorId] = useState(userToken.userId);
     const [postId, setPostId] = useState(post.postId);
 
-    const[openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
-    const[apiMsg, setApiMsg] = useState('');
+    const [apiMsg, setApiMsg] = useState('');
+
+    
 
     const handleSubmitComment = async (e) => {
       e.preventDefault();
@@ -64,6 +66,7 @@ const PostComment = ({post}) => {
             }
           )
           .then((res) => {
+
             setApiMsg(res.data.message);
             setOpenAlert(true);
             

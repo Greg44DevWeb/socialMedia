@@ -56,9 +56,12 @@ const AddPost = ({posts}) => {
 
   const [text, setText] = useState("");
   const [authorId, setAuthorId] = useState(userToken.userId);
-  const [imageUrl, setImageUrl] = useState(null);
-  
-
+  const [imageUrl, setImageUrl] = useState("");
+  // const [newPost, setNewPost] = useState({
+  //   text : setText,
+  //   imageUrl: setImageUrl,
+  //   authorId: userToken.userId,
+  // })
   const [openPostModal, setOpenPostModal] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [apiMsg, setApiMsg] = useState("");
@@ -67,19 +70,16 @@ const AddPost = ({posts}) => {
   const CancelledAction = () => {
     setOpenPostModal(false);
     setText("");
+    setImageUrl(null)
   };
-
- 
- 
+  // Soumission du formulaire avec les données text, imageUrl et AuthorId
   const handlePostSubmit = (event) => {
     event.preventDefault();
-    
-
-    if (authorId === userToken.userId ) {
-      
+    setAuthorId(userToken.userId);
+    if(authorId === userToken.userId) {
         axios.post(
           addPost,
-          JSON.stringify({ text, imageUrl, authorId }),
+          JSON.stringify({text, imageUrl, authorId}),
           {
             headers: {
               "Content-Type": "application/json",
@@ -92,6 +92,9 @@ const AddPost = ({posts}) => {
           console.log( JSON.stringify({ text, imageUrl, authorId }))
           setApiMsg(res.data.message);
           setOpenAlert(true)
+          setText('')
+          setImageUrl('')
+          setOpenPostModal(false)
       })
       .catch((err)=> {
         setOpenAlert(true)
@@ -139,8 +142,6 @@ const AddPost = ({posts}) => {
           </UserBox>
           <Box
             component="form"
-            noValidate
-            autocomplete="off"
             fullWidth
             onSubmit={handlePostSubmit}
           >
@@ -154,7 +155,7 @@ const AddPost = ({posts}) => {
               variant="standard"
               placeholder="Quoi de neuf ?"
               value={text}
-            ></TextField>cd
+            ></TextField>
             <Stack direction="row" gap={1} mt={2} mb={3}>
               <IconButton>
                 <PersonAddIcon color="disabled" />
@@ -166,15 +167,13 @@ const AddPost = ({posts}) => {
                 type="file"
                 style={{ display: "none" }}
                 name="image"
-                
-                
               />
               <FormLabel htmlFor="icon-button-file">
                 <IconButton
                   color="primary"
                   aria-label="upload picture"
                   component="span"
-                 onClick={console.log("Click")}
+                  onClick={console.log("Click")}
                 >
                   <ImageIcon />
                 </IconButton>
@@ -195,7 +194,7 @@ const AddPost = ({posts}) => {
             >
               <Button
                 color="success"
-                onClick={handlePostSubmit}
+                onSubmit={handlePostSubmit}
                 type="submit"
               >
                 Publier

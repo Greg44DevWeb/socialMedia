@@ -32,8 +32,9 @@ exports.getPostsByAuthor = (req, res, next) => {
 exports.createPost = (req, res, next) => {
   //PARAMETRE DES DONNES COMPLETEES
   const image = req.file
-    ? `${req.protocol}://${req.get('host')}/images/post${req.file.filename}`
+    ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     : "";
+    console.log(image);
   const textToSend = req.body.text ? req.body.text : "";
   const Options = {
     year: 'numeric',

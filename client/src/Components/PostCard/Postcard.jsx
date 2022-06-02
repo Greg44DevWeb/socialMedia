@@ -54,6 +54,9 @@ const ExpandMore = styled((theme) => {
 //*** JSX METHOD ***//
 const Postcard = ({ post }) => {
   const {userToken} = useContext(UserContext);
+  console.log(post)
+
+  
 
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {

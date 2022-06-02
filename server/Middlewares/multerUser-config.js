@@ -15,7 +15,7 @@ const MIME_TYPES = {
 que l'on passe à la méthode diskStorage */
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, 'images/profile')
+        callback(null, 'images')
     },
     
     filename: (req, file, callback) => {
@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
         // accès mimetype (ex: image/png) appelé par notre dictionnaire
         const extension = MIME_TYPES[file.mimetype];
         //  génère un nom, ajout d'un time-stamp et extension
-        callback(null, name + Date.now() + '.' + extension);
+        callback(null, name + "_" + Date.now() + '.' + extension);
     }      
 });
 
