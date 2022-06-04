@@ -12,7 +12,7 @@ exports.getPosts = (req, res, next) => {
     if (err)
       res.status(400).json({ message: "impossible d'afficher les posts" });
     res.status(200).json(result);
-    console.log(result);
+    console.log(result);  //TODO ---------------------------------  SUPPRIMER CONSOLE.LOG 
   });
 };
 // AFFCIHER LES POSTS PAR DATE DECROISSANTE SELON L'AUTEUR
@@ -32,24 +32,23 @@ exports.getPostsByAuthor = (req, res, next) => {
 exports.createPost = (req, res, next) => {
   //PARAMETRE DES DONNES COMPLETEES
   const image = req.file
-    ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
     : "";
-    console.log(image);
   const textToSend = req.body.text ? req.body.text : "";
   const Options = {
-    year: 'numeric',
-    month: 'long',
+    year: "numeric",
+    month: "long",
     day: "numeric",
-    hour: 'numeric',
-    minute: 'numeric',
-  }
-  const post = { // Objet'Post'
+    hour: "numeric",
+    minute: "numeric",
+  };
+  const post = {
+    // Objet'Post'
     text: textToSend,
     imageUrl: image,
     date: new Date().toLocaleString("fr-Fr", Options),
     authorId: req.body.authorId,
   };
- 
   // REQUETE AVEC PRISE EN COMPTE MULTER ET VALEURS PARAMETREES
   let query =
     "INSERT INTO post (text, imageUrl, date, authorId) VALUES (?,?,?,?);";
@@ -64,34 +63,65 @@ exports.createPost = (req, res, next) => {
 };
 
 // SUPPRIMER UN POST
-exports.deletePost = (req, res, next) => {
-  let query = `SELECT * FROM post WHERE postId = ?`;
-  db.query(query, [req.body.postId], function (err, result) {
-      if (err) res.status(400).json({ err });
-      if (!result[0]) res.status(400).json({ message: "Aucun id ne correspond dans la table" });
-      else {
-          if (result[0].authorId == req.body.userId || req.body.admin == true) {
-              // SI LE POST A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES
-              if (result[0].imageUrl != "") {
-                  const name = result[0].imageUrl.split('/images/post/')[1];
-                  fs.unlink(`images/post/${name}`, () => {
-                      if (err) console.log(err);
-                      else console.log('Image supprimée  !');
-                  })
-              }
-              // SUPPRIME LE POST DANS LA DB
-              let query = `DELETE FROM post WHERE postId = ?`;
-              db.query(query, [req.body.postId], function (err, result) {
-                  if (err) throw err;
-                  res.status(201).json({ message: 'Post supprimé' });
-              });
-          } else {
-              res.status(401).json({message : "Vous ne pouvez pas supprimer ce post"});
-          }
+// exports.deletePost = (req, res, next) => {
+ 
+//   let query = `SELECT * FROM post WHERE postId=?;`;
+//   db.query(query, [req.body.postId], function (err, result) {
+//       if (err) res.status(400).json({ message: "une erreur est survenue" });
+      
+//       if (!result[0]) 
+//       res.status(400).json({ message: "Aucun id ne correspond dans la table" });
+//       else {
+//         console.log('VOICI LE RESULTAT' + result)
+//           if (result[0].authorId == req.body.userId || req.body.admin == true) {
+//               // SI LE POST A UNE IMAGE, LA SUPPRIMER DU DOSSIER IMAGES
+//               if (result[0].imageUrl != "") {
+//                   const name = result[0].imageUrl.split('/images/')[1];
+//                   fs.unlink(`images/${name}`, () => {
+//                       if (err) console.log(err);
+//                       else console.log('post supprimé  !');
+//                   })
+//               }
+//               // SUPPRIME LE POST DANS LA DB
+//               let query = `DELETE FROM post WHERE postId=?;`;
+//               db.query(query, [req.body.postId], function (err, result) {
+//                   if (err) throw err;
+//                   res.status(201).json({ message: 'Publication supprimée' });
+//               });
+//           } else {
+//               res.status(401).json({message : "Vous ne pouvez pas supprimer ce post"});
+//           }
 
-      }
+//       }
+//   });
+// };
+
+//***DELETE POST TEST ***//
+exports.deleteOnePost = (req, res, next) => {
+  let query = `SELECT * FROM post WHERE postId=?;`;
+  db.query(query, [req.params.postId], (err, result) => {
+    if (err) {
+      res.status(404).json({ message: "une erreur est survenue" });
+    } else {
+      if (!result[0]) {
+        res.status(400).json({message: "Cette publication ne peut -être supprimée"}) 
+    }else {
+      const name = result[0].imageUrl.split('/images/')[1];
+      fs.unlink(`images/${name}`, () => {
+          if (err) console.log(err);
+          else console.log('authorized');//TODO ---------------------------------  SUPPRIMER CONSOLE.LOG                                 
+      })
+       // SUPPRIME LE POST DANS LA DB
+       let query = `DELETE FROM post WHERE postId=?;`;
+       db.query(query, [req.body.postId], function (err, result) {
+           if (err) throw err; 
+           res.status(201).json({ message: 'Publication supprimée' });
+       });
+   }
+    }
   });
 };
+
 
 //MODIFIER UN POST
 exports.modifyPost = (req, res, next) => {
@@ -99,7 +129,7 @@ exports.modifyPost = (req, res, next) => {
     let query = `SELECT * FROM post WHERE postId = ?`;
     db.query(query, [req.params.id], function (err, result) {
       if (err) res.status(400).json({ e });
-      console.log(result[0]);
+      console.log(result[0]); //TODO ---------------------------------  SUPPRIMER CONSOLE.LOG 
       if (!result[0])
         res
           .status(400)
@@ -115,12 +145,12 @@ exports.modifyPost = (req, res, next) => {
         }
         // RECUPERE LES INFOS ENVOYER PAR LE FRONT
         let image = req.file
-          ? `${req.protocol}://${req.get("host")}/images/post/${
+          ? `${req.protocol}://${req.get("host")}/images/${
               req.file.filename
             }`
           : "";
         let textToSend = (req.body.text) ? req.body.text : " ";
-        console.log(body.text);
+        console.log(body.text); //TODO ---------------------------------  SUPPRIMER CONSOLE.LOG 
         const Options = {
           year: 'numeric',
           month: 'long',
@@ -150,7 +180,7 @@ exports.modifyPost = (req, res, next) => {
   } else {
     // RECUPERE LES INFOS ENVOYEES PAR LE FRONT
     const textToSend = (req.body.text) ? req.body.text: ""; // TODO voir erreur
-    console.log('---> contenu du log :' + textToSend);
+    console.log('---> contenu du log :' + textToSend); //TODO ---------------------------------  SUPPRIMER CONSOLE.LOG 
     const Options = {
       year: 'numeric',
       month: 'long',
@@ -172,7 +202,7 @@ exports.modifyPost = (req, res, next) => {
       function (err, result) {
         if (err) throw err;
         res.status(201).json({ message: `votre post a été modifié` });
-        console.log(result);
+        console.log(result); //TODO ---------------------------------  SUPPRIMER CONSOLE.LOG 
       }
     );
   }

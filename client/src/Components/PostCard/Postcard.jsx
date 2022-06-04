@@ -54,12 +54,9 @@ const ExpandMore = styled((theme) => {
 //*** JSX METHOD ***//
 const Postcard = ({ post }) => {
   const {userToken} = useContext(UserContext);
-  console.log(post)
-
-  
-
-    const [expanded, setExpanded] = useState(false);
-    const handleExpandClick = () => {
+  const [expanded, setExpanded] = useState(false);
+    
+  const handleExpandClick = () => {
         setExpanded(!expanded);
       };
     return (
@@ -77,7 +74,7 @@ const Postcard = ({ post }) => {
               action={
                 <IconButton aria-label="menu">
                    {post.authorId === userToken.userId || userToken.admin === 1 ? ( 
-                  <MenuActions />):('')}
+                  <MenuActions post={post} />):('')}
                 </IconButton>
               }
               title={[post.nom] + " " + [post.prenom] + " a posté le :"}
@@ -87,6 +84,7 @@ const Postcard = ({ post }) => {
               component="img"
               height="20%"
               image={post.imageUrl}
+              sx={{maxHeight: '300px'}}
               alt="image attachée au post"
             />
             <CardContent>
@@ -107,6 +105,16 @@ const Postcard = ({ post }) => {
                 />
               </IconButton>
              < PostComment post={post}/>
+                {post.total > 1 ? (
+                  <Typography variant="caption">  
+                    {post.total} commentaires
+                  </Typography>)
+                  :( 
+                    <Typography variant="caption">  
+                    {post.total} commentaire
+                    </Typography>
+                    )
+                }
               <ExpandMore
                 expand={expanded}
                 aria-expanded={expanded}

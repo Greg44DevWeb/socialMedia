@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useContext } from 'react';
 import axios from '../../API/axios';
 
 //*** CONTEXT ***//
@@ -19,6 +19,7 @@ import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 import { IconButton } from '@mui/material';
 import { Input } from '@mui/material';
+import { FormLabel } from '@mui/material';
 
 //*** MATERIAL UI ICONS IMPORTS ***//
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
@@ -30,8 +31,6 @@ import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 
 //*** MATERIAL UI STYLES ***//
 import styled from '@emotion/styled';
-import { FormLabel } from '@mui/material';
-import { faTemperatureArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 
 const StyledModal = styled(Modal) ({
@@ -57,11 +56,7 @@ const AddPost = ({posts}) => {
   const [text, setText] = useState("");
   const [authorId, setAuthorId] = useState(userToken.userId);
   const [imageUrl, setImageUrl] = useState("");
-  // const [newPost, setNewPost] = useState({
-  //   text : setText,
-  //   imageUrl: setImageUrl,
-  //   authorId: userToken.userId,
-  // })
+ 
   const [openPostModal, setOpenPostModal] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [apiMsg, setApiMsg] = useState("");
@@ -75,21 +70,26 @@ const AddPost = ({posts}) => {
   // Soumission du formulaire avec les données text, imageUrl et AuthorId
   const handlePostSubmit = (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append('text' , text)
+    formData.append('imageUrl', imageUrl)
+    formData.append('authorId', userToken.userId)
+
     setAuthorId(userToken.userId);
     if(authorId === userToken.userId) {
         axios.post(
           addPost,
-          JSON.stringify({text, imageUrl, authorId}),
+          formData,
           {
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "multipart/form-data",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         )
         .then((res) =>{
-          console.log(JSON.stringify( res))
-          console.log( JSON.stringify({ text, imageUrl, authorId }))
+          console.log(( res))
+          console.log( ({ formData }))
           setApiMsg(res.data.message);
           setOpenAlert(true)
           setText('')
@@ -130,13 +130,23 @@ const AddPost = ({posts}) => {
         aria-labelledby="fenêtre-du-post"
         aria-describedby="fenêtre-ajout-post"
       >
-        <Box width={500} height={350} bgcolor="#f0efed" p={3} borderRadius={3}>
-          <Typography variant="h6" color="gray" textAlign="center">
+        <Box 
+        width={500} 
+        height={350} 
+        bgcolor="#f0efed" 
+        p={3} 
+        borderRadius={3}>
+          <Typography 
+          variant="h6" 
+          color="gray" 
+          textAlign="center">
             Créer une publication
           </Typography>
           <UserBox>
             <Avatar src={userToken.imageUrl} />
-            <Typography fontWeight={900} variant="span">
+            <Typography 
+            fontWeight={900} 
+            variant="span">
               {userToken.lastname} {userToken.firstname}
             </Typography>
           </UserBox>
@@ -180,10 +190,12 @@ const AddPost = ({posts}) => {
               </FormLabel>
               
               <IconButton>
-                <VideoCameraBackIcon color="disabled" />
+                <VideoCameraBackIcon 
+                color="disabled" />
               </IconButton>
               <IconButton>
-                <SentimentSatisfiedAltIcon color="disabled" />
+                <SentimentSatisfiedAltIcon 
+                color="disabled" />
               </IconButton>
             </Stack>
             <ButtonGroup
@@ -216,7 +228,10 @@ const AddPost = ({posts}) => {
         autoHideDuration={6000}
         onClose={handleClose}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+        <Alert onClose={handleClose} 
+        variant="filled" 
+        severity="success" 
+        sx={{ width: "100%" }}>
           {apiMsg}!
         </Alert>
       </Snackbar>

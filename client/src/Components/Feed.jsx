@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
+import ScrollButton from './ScrollButton/ScrollButton.jsx';
 import axios from '../API/axios.js'
 
 //*** CONTEXT ***//
@@ -13,6 +14,7 @@ import Postcard from './PostCard/Postcard.jsx';
 import AddPost from './PostCard/AddPost.jsx';
 import { Skeleton } from '@mui/material';
 import { Stack } from '@mui/material';
+
 
 
 //*** MATERIAL UI STYLES ***//
@@ -83,8 +85,8 @@ const [success, setSuccess] = useState(false)
         </Box>
          )}
          <AddPost post={posts} /> 
+         <ScrollButton/>
         </> 
-       
     );
 };
 

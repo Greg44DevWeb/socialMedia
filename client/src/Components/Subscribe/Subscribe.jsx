@@ -1,20 +1,16 @@
 import React, {useState, useEffect} from 'react';
-
+import axios from '../../API/axios';
 //*** MATERIAL UI IMPORTS ***//
 import { Modal } from '@mui/material';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import { Button } from '@mui/material';
-
-//*** MATERIAL UI STYLES ***//
-import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
-import axios from '../../API/axios';
 import { Snackbar } from '@mui/material';
 import { Alert } from '@mui/material';
 
-//*** MATERIAL UI COLORS ***//
-import { red } from '@mui/material/colors';
+//*** MATERIAL UI STYLES ***//
+import styled from '@emotion/styled';
 
 const StyledModal = styled(Modal) ({
     display:"flex",
@@ -46,8 +42,6 @@ const Subscribe = () => {
     const [openAlert, setOpenAlert] = useState(false);
     const[apiMsg, setApiMsg] = useState('');
     const [success, setSuccess] = useState(false)
-   
-    
    
     useEffect(() => {
         setNom('');

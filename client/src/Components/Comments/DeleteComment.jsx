@@ -30,7 +30,7 @@ const DeleteComment = ({comment}) => {
       setOpen(false);
     };
     
-    // SuPpression du commentaire 
+    // Suppression du commentaire 
     const handleDeleteComment = (e) => {
     
        axios.delete(deleteComment,{ 
